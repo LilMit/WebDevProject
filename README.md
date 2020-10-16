@@ -50,4 +50,7 @@ UserAdminService:
 
 #### External Public APIs
 
-- https://www.programmableweb.com/api/food-rest-api-v10
+- https://spoonacular.com/food-api/docs
+- Get random recipies: https://api.spoonacular.com/recipes/random (Get request)
+- Information about a specific recipie: https://api.spoonacular.com/recipes/{id}/information (Get request)
+- Search Recipies: https://api.spoonacular.com/recipes/complexSearch (Get request with a few parameters in body)
