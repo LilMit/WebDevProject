@@ -12,7 +12,16 @@ export const validateUser = (username, password) => {
         },
         body: JSON.stringify(body)
     };
-    return fetch(`url/${username}`, init).then(response => response.json());
+    // return fetch(`url/${username}`, init).then(response => response.json());
+    return {
+        id: '1',
+        username: 'john_wick',
+        password: 'john',
+        firstname: 'john',
+        lastname: 'wick',
+        type: 'REGULAR',
+        email: 'john_wick@email.com',
+    }
 }
 
 export const addUser = (user) => {

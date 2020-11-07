@@ -5,12 +5,15 @@ const NavigationTabsComponent = ({
     tabPath = '/',
     currentPath,
     history,
+    user_id,
 }) => {
 
     const pushToTabPath = (event) => {
         event.preventDefault();
-        if(!currentPath.includes(tabPath)) {
+        if(tabName.includes('Home') || tabName.includes('All Users')) {
             history.push(`/${tabPath}`);
+        } else {
+            history.push(`/${tabPath}/${user_id}`);
         }
     } 
 

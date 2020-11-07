@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import LoginService from '../../services/UserService';
 import AlertComponent from '../Alert/AlertComponent';
 import FormFieldComponent from '../FormField/FormFieldComponent';
+import NavigationComponent from '../Navigation/NavigationComponent';
 import style from './LoginComponent.module.css';
+import { addUserAction } from '../../actions/userAction';
 
-const LoginComponent = () => {
+const LoginComponent = ({ addUserDispatchAction }) => {
 
     const intialState = {
         username: '',
@@ -70,21 +73,25 @@ const LoginComponent = () => {
 
     const verifyLogin = (event) => {
         event.preventDefault();
-        LoginService.validateUser(loginDetails.username, loginDetails.password).then((data) => {
-            if(data && data === 1) {
-                history.push('/home');
-            } else {
-                setLoginDetails({
-                    ...intialState,
-                    alert: 'd-block',
-                })
-            }
-        }).catch((data) => {
-            setLoginDetails({
-                ...intialState,
-                alert: 'd-block',
-            })
-        });
+        // LoginService.validateUser(loginDetails.username, loginDetails.password).then((data) => {
+        //     if(data) {
+        //         addUserDispatchAction(data);
+        //         history.push('/home');
+        //     } else {
+        //         setLoginDetails({
+        //             ...intialState,
+        //             alert: 'd-block',
+        //         })
+        //     }
+        // }).catch((data) => {
+        //     setLoginDetails({
+        //         ...intialState,
+        //         alert: 'd-block',
+        //     })
+        // });
+        const user = LoginService.validateUser(loginDetails.username, loginDetails.password);
+        addUserDispatchAction(user);
+        history.push('/home');
     };
 
     const removeAlert = (event) => {
@@ -141,4 +148,9 @@ const LoginComponent = () => {
     );
 }
 
-export default LoginComponent;
+const mapStateToProps = (state) => ({});
+const mapDispatchToProps = (dispatch) => ({
+    addUserDispatchAction : (user) => addUserAction(dispatch, user),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent);

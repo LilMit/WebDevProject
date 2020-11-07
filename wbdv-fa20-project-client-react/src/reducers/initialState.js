@@ -1,9 +1,5 @@
 const initialState = {
-    history: {
-        location: {
-            pathname: '/home',
-        },
-    },
+   
 };
 const ADD_HISTORY = 'ADD_HISTORY';
 

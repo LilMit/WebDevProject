@@ -3,9 +3,12 @@ import { Link, useHistory } from 'react-router-dom';
 import $ from 'jquery';
 import style from './NavigationComponent.module.css';
 import NavigationTabsComponent from '../NavigationTabs/NavigationTabsComponent';
+import { connect } from 'react-redux';
 
 const NavigationComponent = ({
-    
+    isLoggedIn,
+    type,
+    user_id,
 }) => {
 
     let history = useHistory();
@@ -19,7 +22,7 @@ const NavigationComponent = ({
         tabPath: 'savedRecipies',
     },{
         tabName: 'Your Recipies',
-        tabPath: 'yourRecipies'
+        tabPath: 'ownedRecipies'
     },{
         tabName: 'Profile',
         tabPath: 'profile'
@@ -31,6 +34,23 @@ const NavigationComponent = ({
     const toggleView = (event) => {
         event.preventDefault();
         $("#recipeNav").toggleClass("show");
+    }
+
+    const shouldRenderTab = (tab) => {
+        switch(tab.tabName) {
+            case 'Home':
+                return true;
+            case 'Profile':
+                return isLoggedIn;
+            case 'Saved Recipies':
+                return isLoggedIn;
+            case 'Your Recipies':
+                return type === 'AUTHOR';
+            case 'All Users':
+                return type === 'ADMIN';
+            default:
+                return true;
+        }
     }
 
     return (
@@ -50,18 +70,22 @@ const NavigationComponent = ({
                 <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
                     {
                         allTabs.map(tab => {
-                            return <NavigationTabsComponent 
-                                        tabName={tab.tabName}
-                                        tabPath={tab.tabPath}
-                                        currentPath={history.location.pathname}
-                                        history={history}/>
+                            if(shouldRenderTab(tab)) {
+                                return <NavigationTabsComponent 
+                                            tabName={tab.tabName}
+                                            tabPath={tab.tabPath}
+                                            currentPath={history.location.pathname}
+                                            history={history}
+                                            user_id={user_id}/>
+                            }
+                            return null;
                         })
                     }
                 </ul>
                 <form class="form-inline">
-                    <Link to = "/login" className="btn btn-primary my-2 my-sm-0 mr-2" type="button">Login</Link>
-                    <Link to = "/signup" className="btn btn-info my-2 my-sm-0" type="button">Sign Up</Link>
-                    <button className="btn btn-outline-danger my-sm-0 ml-2" type="button">Logout</button>
+                    {!isLoggedIn && <Link to = "/login" className="btn btn-primary my-2 my-sm-0 mr-2" type="button">Login</Link>}
+                    {!isLoggedIn && <Link to = "/signup" className="btn btn-info my-2 my-sm-0" type="button">Sign Up</Link>}
+                    {isLoggedIn && <button className="btn btn-outline-danger my-sm-0 ml-2" type="button">Logout</button>}
                 </form>
             </div>
         </nav>
@@ -69,4 +93,10 @@ const NavigationComponent = ({
 
 };
 
-export default NavigationComponent;
+const mapStateToProps = (state) => ({
+    isLoggedIn: state.userReducer.isLoggedIn,
+    type: state.userReducer.type,
+    user_id: state.userReducer.id,
+});
+
+export default connect(mapStateToProps)(NavigationComponent);

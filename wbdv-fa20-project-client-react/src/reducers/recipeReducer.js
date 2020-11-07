@@ -58,7 +58,7 @@ const initialState = {
             ownedBy: 'John_wick',
         }
     ],
-    userRecipies: [
+    ownedRecipies: [
         {
             id: '1',
             title: 'Title 1',

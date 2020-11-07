@@ -15,6 +15,8 @@ import './CustomRoutes.css';
 import { reducer } from './reducers/initialState';
 import { userReducer } from './reducers/userReducer';
 import { recipeReducer } from './reducers/recipeReducer';
+import SavedRecipiesContainer from './container/SavedRecipies/SavedRecipiesContainer';
+import OwnedRecipiesContainer from './container/OwnedRecipies/OwnedRecipiesContainer';
 
 const reducers = combineReducers({
   reducer,
@@ -30,18 +32,19 @@ class CustomRoutes extends React.Component {
     return (
       <Provider store={store}>
         <Router>
-          <NavigationComponent />
-              <Switch>
-                <Route path="/login"  component = {LoginComponent} exact />
-                <Route path="/signup" component = {SignUpComponent} exact />
-                <Route path="/profile" exact>
-                  
-                </Route>
-                <Route path="/home" component = {Home} exact />
-                <Route path="/">
-                  <Redirect to="/login" />
-                </Route>
-              </Switch>
+          <Switch>
+            <Route path="/login"  component = {LoginComponent} exact />
+            <Route path="/signup" component = {SignUpComponent} exact />
+            <Route path="profile/:userId" exact>
+              <NavigationComponent />
+            </Route>
+            <Route path="/home" component = {Home} exact />
+            <Route path="/savedRecipies/:userId" component = {SavedRecipiesContainer} exact />
+            <Route path="/ownedRecipies/:userId" component = {OwnedRecipiesContainer} exact />
+            <Route path="/">
+              <Redirect to="/login" />
+            </Route>
+          </Switch>
         </Router>
       </Provider>
     );

@@ -6,9 +6,10 @@ const intitialState = {
     password: '',
     firstname: '',
     lastname: '',
-    type: '',
+    type: 'ANONYMOUS',
     email: '',
     users: [],
+    isLoggedIn: false,
 };
 
 export const userReducer = (state = intitialState, action) => {
@@ -26,6 +27,7 @@ export const userReducer = (state = intitialState, action) => {
                 lastname: user.lastname,
                 type: user.type,
                 email: user.email,
+                isLoggedIn: true,
             };
             return newState;
         case DELETE_USER:

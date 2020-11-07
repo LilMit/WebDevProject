@@ -4,6 +4,7 @@ import FormFieldComponent from '../FormField/FormFieldComponent';
 import UserService from '../../services/UserService';
 import style from './SignUpComponent.module.css';
 import { useHistory } from 'react-router-dom';
+import NavigationComponent from '../Navigation/NavigationComponent';
 
 const SignUpComponent = () => {
 
