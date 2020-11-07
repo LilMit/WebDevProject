@@ -1,0 +1,9 @@
+.title_link:hover {
+    text-decoration: none;
+    cursor: pointer;
+    color: white;
+}
+
+.title_link {
+    color: white;
+}
