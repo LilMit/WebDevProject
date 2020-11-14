@@ -23,7 +23,7 @@ class Home extends React.Component {
             <NavigationComponent />
             <div>
                 <HomeNavigation />
-                <RecipeGridComponent recipies={this.props.recipies} />
+                <RecipeGridComponent recipes={this.props.recipes} />
             </div>
             </>
         );
@@ -31,7 +31,7 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    recipies: state.recipeReducer.recipies,
+    recipes: state.recipeReducer.recipes,
 });
 
 export default connect(mapStateToProps)(Home);

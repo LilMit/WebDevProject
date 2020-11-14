@@ -1,6 +1,6 @@
 const date = new Date().toDateString();
 const initialState = {
-    recipies: [
+    recipes: [
         {
             id: '1',
             title: 'Title 1',
@@ -58,7 +58,7 @@ const initialState = {
             ownedBy: 'John_wick',
         }
     ],
-    ownedRecipies: [
+    ownedRecipes: [
         {
             id: '1',
             title: 'Title 1',
@@ -88,7 +88,7 @@ const initialState = {
             ownedBy: 'John_wick',
         }
     ],
-    savedRecipies: [
+    savedRecipes: [
         {
             id: '1',
             title: 'Title 5',
