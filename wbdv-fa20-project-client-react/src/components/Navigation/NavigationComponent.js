@@ -18,11 +18,11 @@ const NavigationComponent = ({
         tabPath: 'home',
         isSelected: false,
     },{
-        tabName: 'Saved Recipies',
-        tabPath: 'savedRecipies',
+        tabName: 'Saved Recipes',
+        tabPath: 'savedRecipes',
     },{
-        tabName: 'Your Recipies',
-        tabPath: 'ownedRecipies'
+        tabName: 'Your Recipes',
+        tabPath: 'ownedRecipes'
     },{
         tabName: 'Profile',
         tabPath: 'profile'
@@ -42,9 +42,9 @@ const NavigationComponent = ({
                 return true;
             case 'Profile':
                 return isLoggedIn;
-            case 'Saved Recipies':
+            case 'Saved Recipes':
                 return isLoggedIn;
-            case 'Your Recipies':
+            case 'Your Recipes':
                 return type === 'AUTHOR';
             case 'All Users':
                 return type === 'ADMIN';
@@ -57,7 +57,7 @@ const NavigationComponent = ({
         <nav className="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
             <span className="navbar-brand">
                 <Link to="/home" className={`${style.title_link} ml-3`}>
-                    Recipies
+                    Recipes
                 </Link>
             </span>
             <button className="navbar-toggler ml-1 mr-1" type="button" 
