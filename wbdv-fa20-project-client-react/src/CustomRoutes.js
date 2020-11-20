@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 import { combineReducers, createStore } from 'redux';
 import LoginComponent from './components/Login/LoginComponent';
@@ -17,6 +17,8 @@ import { userReducer } from './reducers/userReducer';
 import { recipeReducer } from './reducers/recipeReducer';
 import SavedRecipiesContainer from './container/SavedRecipies/SavedRecipiesContainer';
 import OwnedRecipiesContainer from './container/OwnedRecipies/OwnedRecipiesContainer';
+import AllUsers from './container/Users/AllUsers';
+import ProfileComponent from './components/Profile/ProfileComponent';
 
 const reducers = combineReducers({
   reducer,
@@ -28,6 +30,8 @@ const store = createStore(reducers , window.__REDUX_DEVTOOLS_EXTENSION__
   && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 class CustomRoutes extends React.Component {
+  
+  
   render () {
     return (
       <Provider store={store}>
@@ -35,10 +39,12 @@ class CustomRoutes extends React.Component {
           <Switch>
             <Route path="/login"  component = {LoginComponent} exact />
             <Route path="/signup" component = {SignUpComponent} exact />
-            <Route path="profile/:userId" exact>
+            <Route path="/profile/:userId" exact>
               <NavigationComponent />
+              <ProfileComponent />
             </Route>
             <Route path="/home" component = {Home} exact />
+            <Route path="/users" component = { AllUsers } exact />
             <Route path="/savedRecipies/:userId" component = {SavedRecipiesContainer} exact />
             <Route path="/ownedRecipies/:userId" component = {OwnedRecipiesContainer} exact />
             <Route path="/">

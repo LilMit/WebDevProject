@@ -1,37 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AlertComponent from '../Alert/AlertComponent';
 import FormFieldComponent from '../FormField/FormFieldComponent';
 import UserService from '../../services/UserService';
-import style from './SignUpComponent.module.css';
-import { useHistory } from 'react-router-dom';
+import style from './ProfileComponent.module.css';
+import { useHistory, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addUserAction } from '../../actions/userAction';
 
-const SignUpComponent = ({ addUserDispatchAction }) => {
+const Profile = ({ addUserDispatchAction , loggedInUser}) => {
 
-    const history = useHistory();
-
-    const intialState = {
-        username: '',
-        password: '',
-        email: '',
-        firstname: '',
-        lastname: '',
+    let intialState = {
+        ...loggedInUser,
         isUsernameUpdated: false,
         isPasswordUpdated: false,
         isEmailUpdated: false,
         isFirstnameUpdated: false,
         isLastnameUpdated: false,
+        isRoleChanged: false,
         alert: 'd-none',
         alertMessage: 'Cannot add user. All field are required.',
     };
+
+    const history = useHistory();
+    const params = useParams();
+
+    useEffect(() => {
     
-    const [signUpDetails, setSignUpDetails] = useState(intialState);
+        if(!loggedInUser._id){
+            history.push('/home');
+        }
+
+        if(loggedInUser._id !== params.userId && loggedInUser.type !== 'ADMIN') {
+            history.push(`/profile/${loggedInUser._id}`);
+        }
+
+        if(history.location.state && history.location.state.user) {
+            const { user } = history.location.state;
+            intialState = {
+                ...intialState,
+                ...user,
+            }
+            setProfileDetails(intialState);
+        }
+
+    }, loggedInUser);
+    
+    const [profileDetails, setProfileDetails] = useState(intialState);
 
     const removeAlert = (event) => {
         event.preventDefault();
-        setSignUpDetails({
-            ...signUpDetails,
+        setProfileDetails({
+            ...profileDetails,
             alert: 'd-none',
             alertMessage: 'Cannot add user. All field are required.',
         });
@@ -39,7 +58,7 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
 
     const clearAll = (event) => {
         event.preventDefault();
-        setSignUpDetails({
+        setProfileDetails({
           ...intialState
         });
     }
@@ -49,38 +68,38 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
         history.push('/home');
     };
 
-    const signUp = (event) => {
+    const updateProfile = (event) => {
         event.preventDefault();
         const user = {
-            username: signUpDetails.username,
-            password: signUpDetails.password,
-            email: signUpDetails.email,
-            firstname: signUpDetails.firstname,
-            lastname: signUpDetails.lastname,
+            _id: profileDetails._id,
+            username: profileDetails.username,
+            password: profileDetails.password,
+            email: profileDetails.email,
+            firstname: profileDetails.firstname,
+            lastname: profileDetails.lastname,
+            type: profileDetails.type,
         }
-        UserService.addUser(user).then((data) => {
+        UserService.updateUser(user._id, user).then((data) => {
             console.log('data1', data);
             if(data) {
                 addUserDispatchAction(data);
-                history.push('/home');
             } else {
-                setSignUpDetails({
+                setProfileDetails({
                     ...intialState,
                     alert: 'd-block',
                 })
             }
         }).catch((data) => {
             if(data === -1){
-                setSignUpDetails({
-                    ...signUpDetails,
-                    username: '',
+                setProfileDetails({
+                    ...profileDetails,
                     alert: 'd-block',
-                    alertMessage: 'Username is already taked enter another one.'
+                    alertMessage: 'Error while updating data'
                 })
                 return;
             }
-            setSignUpDetails({
-                ...signUpDetails,
+            setProfileDetails({
+                ...profileDetails,
                 alert: 'd-block',
             });
         });
@@ -89,35 +108,45 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
     const updateUsername = (event) => {
         event.preventDefault();
         if(event.target.value.trim() === ''){
-            setSignUpDetails({
-                ...signUpDetails,
+            setProfileDetails({
+                ...profileDetails,
                 username: event.target.value,
                 isUsernameUpdated: false,
                 alert: 'd-none'
             });
             return;
         }
-        setSignUpDetails({
-            ...signUpDetails,
+        setProfileDetails({
+            ...profileDetails,
             username: event.target.value,
             isUsernameUpdated: true,
             alert: 'd-none'
         });
     };
 
+    const updateUserRole = (event) => {
+        event.preventDefault();
+        setProfileDetails({
+            ...profileDetails,
+            type: event.target.value,
+            isRoleChanged: true,
+        });
+        return;
+    }
+
     const updatePassword = (event) => {
         event.preventDefault();
         if(event.target.value.trim() === ''){
-            setSignUpDetails({
-                ...signUpDetails,
+            setProfileDetails({
+                ...profileDetails,
                 password: event.target.value,
                 isPasswordUpdated: false,
                 alert: 'd-none'
             });
             return;
         }
-        setSignUpDetails({
-            ...signUpDetails,
+        setProfileDetails({
+            ...profileDetails,
             password: event.target.value,
             isPasswordUpdated: true,
             alert: 'd-none'
@@ -127,16 +156,16 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
     const updateFirstName = (event) => {
         event.preventDefault();
         if(event.target.value.trim() === ''){
-            setSignUpDetails({
-                ...signUpDetails,
+            setProfileDetails({
+                ...profileDetails,
                 firstname: event.target.value,
                 isFirstnameUpdated: false,
                 alert: 'd-none'
             });
             return;
         }
-        setSignUpDetails({
-            ...signUpDetails,
+        setProfileDetails({
+            ...profileDetails,
             firstname: event.target.value,
             isFirstnameUpdated: true,
             alert: 'd-none'
@@ -146,16 +175,16 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
     const updateLastName = (event) => {
         event.preventDefault();
         if(event.target.value.trim() === ''){
-            setSignUpDetails({
-                ...signUpDetails,
+            setProfileDetails({
+                ...profileDetails,
                 lastname: event.target.value,
                 isLastnameUpdated: false,
                 alert: 'd-none'
             });
             return;
         }
-        setSignUpDetails({
-            ...signUpDetails,
+        setProfileDetails({
+            ...profileDetails,
             lastname: event.target.value,
             isLastnameUpdated: true,
             alert: 'd-none'
@@ -165,50 +194,49 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
     const updateEmail = (event) => {
         event.preventDefault();
         if(event.target.value.trim() === ''){
-            setSignUpDetails({
-                ...signUpDetails,
+            setProfileDetails({
+                ...profileDetails,
                 email: event.target.value,
                 isEmailUpdated: false,
                 alert: 'd-none'
             });
             return;
         }
-        setSignUpDetails({
-            ...signUpDetails,
+        setProfileDetails({
+            ...profileDetails,
             email: event.target.value,
             isEmailUpdated: true,
             alert: 'd-none'
         });
     };
 
-    const isSignUpEnabled = (signUpDetails.isUsernameUpdated && signUpDetails.isPasswordUpdated
-                            && signUpDetails.isLastnameUpdated && signUpDetails.isFirstnameUpdated
-                            && signUpDetails.isEmailUpdated);
-    const isClearEnabled = (signUpDetails.isUsernameUpdated || signUpDetails.isPasswordUpdated
-                            || signUpDetails.isLastnameUpdated || signUpDetails.isFirstnameUpdated
-                            || signUpDetails.isEmailUpdated);
+    const isClearEnabled = (profileDetails.isUsernameUpdated || profileDetails.isPasswordUpdated
+                            || profileDetails.isLastnameUpdated || profileDetails.isFirstnameUpdated
+                            || profileDetails.isEmailUpdated|| profileDetails.isRoleChanged);
+
     return (
         <div className={`${style.outlier}`}>
             <div className={`${style.custom_sign_up_container}`}>
             <div className={`jumbotron row justify-content-center ${style.remove_margin}`}>
-                    <h1> Sign Up </h1>
+                    <h1> Profile </h1>
             </div>
             <AlertComponent
-                displayClass={signUpDetails.alert}
+                displayClass={profileDetails.alert}
                 cancelButtonHandler={removeAlert}
-                alertMessage =  {signUpDetails.alertMessage}/>
+                alertMessage =  {profileDetails.alertMessage}/>
             <FormFieldComponent
                     label = "Username"
                     placeholder = "John"
-                    inputValue = {signUpDetails.username}
+                    inputValue = {profileDetails.username}
                     inputType = 'text'
                     id = 'username'
                     onChangeEventHandler = {updateUsername}
+                    disabled = {true}
                     divClass = {style.remove_margin} />
             <FormFieldComponent
                     label = "Password"
                     placeholder = "QWERTasdfg"
-                    inputValue = {signUpDetails.password}
+                    inputValue = {profileDetails.password}
                     inputType = 'password'
                     id = 'password'
                     onChangeEventHandler = {updatePassword}
@@ -216,7 +244,7 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
             <FormFieldComponent
                 label = "Firstname"
                 placeholder = "John"
-                inputValue = {signUpDetails.firstname}
+                inputValue = {profileDetails.firstname}
                 inputType = 'text'
                 id = 'firstName'
                 onChangeEventHandler = {updateFirstName}
@@ -224,7 +252,7 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
             <FormFieldComponent
                 label = "Lastname"
                 placeholder = "Wick"
-                inputValue = {signUpDetails.lastname}
+                inputValue = {profileDetails.lastname}
                 inputType = 'text'
                 id = 'lastName'
                 onChangeEventHandler = {updateLastName}
@@ -232,16 +260,39 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
             <FormFieldComponent
                 label = "Email"
                 placeholder = "John_Wick@email.com"
-                inputValue = {signUpDetails.email}
+                inputValue = {profileDetails.email}
                 inputType = 'email'
                 id = 'email'
                 onChangeEventHandler = {updateEmail}
                 divClass = {style.remove_margin} />
+            <div className={`form-group row ${style.remove_margin}`}>
+                <div className="col-sm-2 col-form-label">
+                    <span>Role</span>
+                </div>
+                <div className="col-sm-10">
+                    {
+                        loggedInUser.type === 'ADMIN' ? 
+                        (
+                            <select className="custom-select w-100 mr-1 mt-1 mt-sm-0" value={profileDetails.type} onChange = {(event) => updateUserRole(event)}>
+                                <option value="ADMIN" selected={profileDetails.type === 'ADMIN'}>ADMIN</option>
+                                <option value="AUTHOR" selected={profileDetails.type === 'AUTHOR'}>AUTHOR</option>
+                                <option value="BROWSING" selected={profileDetails.type === 'BROWSING'}>BROWSING</option>
+                            </select>
+                        ) : (
+                            <select className="custom-select w-100 mr-1 mt-1 mt-sm-0" value={profileDetails.type} onChange = {(event) => updateUserRole(event)} disabled>
+                                <option value="ADMIN" selected={profileDetails.type === 'ADMIN'}>ADMIN</option>
+                                <option value="AUTHOR" selected={profileDetails.type === 'AUTHOR'}>AUTHOR</option>
+                                <option value="BROWSING" selected={profileDetails.type === 'BROWSING'}>BROWSING</option>
+                            </select>
+                        )
+                    }
+                </div>
+            </div>
              <div className={`form-group row ${style.remove_margin}`}>
-                { isSignUpEnabled && <button className={`btn btn-success col-sm ${style.margin_btn}`} onClick = {(event) => signUp(event)}>Sign Up</button>}
-                { !isSignUpEnabled && <button className= {`btn btn-success col-sm ${style.margin_btn}`} onClick = {(event) => signUp(event)} disabled>Sign Up</button>}
+                { isClearEnabled && <button className={`btn btn-success col-sm ${style.margin_btn}`} onClick = {(event) => updateProfile(event)}>Update</button>}
+                { !isClearEnabled && <button className= {`btn btn-success col-sm ${style.margin_btn}`} onClick = {(event) => updateProfile(event)} disabled>Update</button>}
                 <button className={`btn btn-danger col-sm ${style.margin_btn}`} onClick = {(event) => cancel(event)}>Cancel</button>
-                { isClearEnabled &&  <button className={`btn btn-outline-secondary col-sm ${style.margin_btn}`} onClick = {(event) => clearAll(event)}>Clear</button>}
+                { isClearEnabled &&  <button className={`btn btn-outline-secondary col-sm ${style.margin_btn}`} onClick = {(event) => clearAll(event)}>Clear Changes</button>}
                 { !isClearEnabled &&  <button className={`btn btn-outline-secondary col-sm ${style.margin_btn}`} onClick = {(event) => clearAll(event)} disabled>Clear</button>}
             </div>
             </div>
@@ -249,9 +300,12 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
     )
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    loggedInUser: state.userReducer,
+});
+
 const mapDispatchToProps = (dispatch) => ({
     addUserDispatchAction : (user) => addUserAction(dispatch, user),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

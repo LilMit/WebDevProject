@@ -4,11 +4,13 @@ import $ from 'jquery';
 import style from './NavigationComponent.module.css';
 import NavigationTabsComponent from '../NavigationTabs/NavigationTabsComponent';
 import { connect } from 'react-redux';
+import { deleteUserAction } from '../../actions/userAction';
 
 const NavigationComponent = ({
     isLoggedIn,
     type,
     user_id,
+    removeUserDispatchAction,
 }) => {
 
     let history = useHistory();
@@ -53,6 +55,13 @@ const NavigationComponent = ({
         }
     }
 
+    const logout = (event) => {
+        event.preventDefault();
+        removeUserDispatchAction();
+        history.replace("/home", "urlhistory");
+    };
+
+
     return (
         <nav className="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
             <span className="navbar-brand">
@@ -85,7 +94,7 @@ const NavigationComponent = ({
                 <form class="form-inline">
                     {!isLoggedIn && <Link to = "/login" className="btn btn-primary my-2 my-sm-0 mr-2" type="button">Login</Link>}
                     {!isLoggedIn && <Link to = "/signup" className="btn btn-info my-2 my-sm-0" type="button">Sign Up</Link>}
-                    {isLoggedIn && <button className="btn btn-outline-danger my-sm-0 ml-2" type="button">Logout</button>}
+                    {isLoggedIn && <button className="btn btn-outline-danger my-sm-0 ml-2" type="button" onClick={(event) => logout(event)}>Logout</button>}
                 </form>
             </div>
         </nav>
@@ -96,7 +105,11 @@ const NavigationComponent = ({
 const mapStateToProps = (state) => ({
     isLoggedIn: state.userReducer.isLoggedIn,
     type: state.userReducer.type,
-    user_id: state.userReducer.id,
+    user_id: state.userReducer._id,
 });
 
-export default connect(mapStateToProps)(NavigationComponent);
+const mapDispatchToProps = (dispatch) => ({
+    removeUserDispatchAction: () => deleteUserAction(dispatch),
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(NavigationComponent);

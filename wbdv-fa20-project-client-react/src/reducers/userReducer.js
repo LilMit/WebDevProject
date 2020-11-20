@@ -1,7 +1,15 @@
 import { ADD_USER, DELETE_USER, ADD_ALL_USERS, UPDATE_USER } from '../actions/userAction';
 
-const intitialState = {
-    id: '',
+let sessionState = localStorage.getItem('userReducer');
+
+if(!sessionState) {
+    sessionState = {};
+} else {
+    sessionState = JSON.parse(sessionState);
+}
+
+const logoutState = {
+    _id: '',
     username: '',
     password: '',
     firstname: '',
@@ -12,15 +20,20 @@ const intitialState = {
     isLoggedIn: false,
 };
 
+const intitialState = {
+    ...logoutState,
+    ...sessionState,
+};
+  
 export const userReducer = (state = intitialState, action) => {
-    let newState;
+    let newState = state;
     let user;
     switch(action.type) {
         case ADD_USER:
             user = action.user;
             newState = {
                 ...state,
-                id: user.id,
+                _id: user._id,
                 username: user.username,
                 password: user.password,
                 firstname: user.firstname,
@@ -29,24 +42,24 @@ export const userReducer = (state = intitialState, action) => {
                 email: user.email,
                 isLoggedIn: true,
             };
-            return newState;
+            break;
         case DELETE_USER:
             newState = {
-                ...intitialState,
+                ...logoutState,
             };
-            return newState;
+            break;
         case ADD_ALL_USERS:
             user = action.user;
             newState = {
                 ...state,
                 users: action.users,
             }
-            return newState;
+            break;
         case UPDATE_USER:
             user = action.user;
             newState = {
                 ...state,
-                id: user.id,
+                _id: user._id,
                 username: user.username,
                 password: user.password,
                 firstname: user.firstname,
@@ -54,8 +67,12 @@ export const userReducer = (state = intitialState, action) => {
                 type: user.type,
                 email: user.email,
             };
-            return newState;
+            break;
         default:
             return state;
     }
+
+    localStorage.setItem('userReducer', JSON.stringify(newState));
+    return newState;
+
 };
