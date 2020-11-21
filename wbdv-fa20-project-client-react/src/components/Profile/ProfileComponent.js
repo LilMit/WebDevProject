@@ -6,6 +6,7 @@ import style from './ProfileComponent.module.css';
 import { useHistory, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addUserAction } from '../../actions/userAction';
+import { data } from 'jquery';
 
 const Profile = ({ addUserDispatchAction , loggedInUser}) => {
 
@@ -18,7 +19,7 @@ const Profile = ({ addUserDispatchAction , loggedInUser}) => {
         isLastnameUpdated: false,
         isRoleChanged: false,
         alert: 'd-none',
-        alertMessage: 'Cannot add user. All field are required.',
+        alertMessage: 'Something Went wrong.',
     };
 
     const history = useHistory();
@@ -36,11 +37,13 @@ const Profile = ({ addUserDispatchAction , loggedInUser}) => {
 
         if(history.location.state && history.location.state.user) {
             const { user } = history.location.state;
-            intialState = {
-                ...intialState,
-                ...user,
-            }
-            setProfileDetails(intialState);
+            UserService.getUserById(user._id).then((data) => {
+                intialState = {
+                    ...intialState,
+                    ...data,
+                };
+                setProfileDetails(intialState);
+            });
         }
 
     }, loggedInUser);
@@ -77,12 +80,24 @@ const Profile = ({ addUserDispatchAction , loggedInUser}) => {
             email: profileDetails.email,
             firstname: profileDetails.firstname,
             lastname: profileDetails.lastname,
-            type: profileDetails.type,
-        }
+        };
         UserService.updateUser(user._id, user).then((data) => {
-            console.log('data1', data);
             if(data) {
-                addUserDispatchAction(data);
+                if(profileDetails.isRoleChanged) {
+                    UserService.updateUserRole(loggedInUser._id, user._id, profileDetails.type)
+                    .then((updatedRole) => {
+                        if(updatedRole) {
+                            addUserDispatchAction(updatedRole);
+                        } else {
+                            setProfileDetails({
+                                ...intialState,
+                                alert: 'd-block',
+                            })
+                        }
+                    });
+                } else {
+                    addUserDispatchAction(data);
+                }
             } else {
                 setProfileDetails({
                     ...intialState,

@@ -44,8 +44,23 @@ export const updateUser = (user_id, user) => {
         },
         body: JSON.stringify(user),
     };
-    return fetch(`url/${user_id}`, init).then(response => response.json());
+    return fetch(`${url}/${user_id}`, init).then(response => response.json());
 }
+
+export const updateUserRole = (requestinUserId, user_id, updatedRole) => {
+    const user = {
+        requestingUser: requestinUserId,
+        role: updatedRole,
+    };
+    const init = { 
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify(user),
+    };
+    return fetch(`${url}/${user_id}/role`, init).then(response => response.json());
+};
 
 export const getUserById = (id) => {
     const init = { 
@@ -75,7 +90,7 @@ const deleteUser = (userToDelete) => {
             'content-type': 'application/json',
         },
     };
-    return fetch(`${url}/all/${userToDelete}`, init).then(response => response.json());
+    return fetch(`${url}/${userToDelete}`, init).then(response => response.json());
 }
 
 const defaultExport = {
@@ -86,6 +101,7 @@ const defaultExport = {
     getUserById,
     getAllUsers,
     deleteUser,
+    updateUserRole,
 };
 
 export default defaultExport;

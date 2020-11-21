@@ -75,14 +75,14 @@ const LoginComponent = ({ addUserDispatchAction }) => {
         LoginService.validateUser(loginDetails.username, loginDetails.password)
         .then((data) => {
             console.log('data',data);
-            if(data) {
+            if(data && !data.error) {
                 addUserDispatchAction(data);
                 history.push('/home');
             } else {
                 setLoginDetails({
                     ...intialState,
                     alert: 'd-block',
-                })
+                });
             }
         }).catch((data) => {
             console.log('data', data);
@@ -91,9 +91,6 @@ const LoginComponent = ({ addUserDispatchAction }) => {
                 alert: 'd-block',
             })
         });
-        // const user = LoginService.validateUser(loginDetails.username, loginDetails.password);
-        // addUserDispatchAction(user);
-        // history.push('/home');
     };
 
     const removeAlert = (event) => {
