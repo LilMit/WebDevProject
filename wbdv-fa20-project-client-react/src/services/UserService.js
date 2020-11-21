@@ -1,4 +1,4 @@
-const url = '';
+const url = 'http://localhost:4000/api/users';
 
 export const validateUser = (username, password) => {
     const body = {
@@ -12,16 +12,7 @@ export const validateUser = (username, password) => {
         },
         body: JSON.stringify(body)
     };
-    // return fetch(`url/${username}`, init).then(response => response.json());
-    return {
-        id: '1',
-        username: 'john_wick',
-        password: 'john',
-        firstname: 'john',
-        lastname: 'wick',
-        type: 'REGULAR',
-        email: 'john_wick@email.com',
-    }
+    return fetch(`${url}/validate`, init).then(response => response.json());
 }
 
 export const addUser = (user) => {
@@ -32,7 +23,7 @@ export const addUser = (user) => {
         },
         body: JSON.stringify(user)
     };
-    return fetch(url, init).then(response => response.json());
+    return fetch(`${url}`, init).then(response => response.json());
 }
 
 export const getUser = (username) => {
@@ -42,13 +33,75 @@ export const getUser = (username) => {
             'content-type': 'application/json',
         },
     };
-    return fetch(`url/${username}`, init).then(response => response.json());
+    return fetch(`${url}/${username}`, init).then(response => response.json());
+}
+
+export const updateUser = (user_id, user) => {
+    const init = { 
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify(user),
+    };
+    return fetch(`${url}/${user_id}`, init).then(response => response.json());
+}
+
+export const updateUserRole = (requestinUserId, user_id, updatedRole) => {
+    const user = {
+        requestingUser: requestinUserId,
+        role: updatedRole,
+    };
+    const init = { 
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify(user),
+    };
+    return fetch(`${url}/${user_id}/role`, init).then(response => response.json());
+};
+
+export const getUserById = (id) => {
+    const init = { 
+        method: 'GET',
+        headers: {
+            'content-type': 'application/json',
+        },
+    };
+    return fetch(`${url}/${id}`, init).then(response => response.json());
+}
+
+const getAllUsers = (requestUser_id) => {
+    const init = { 
+        method: 'GET',
+        headers: {
+            'content-type': 'application/json',
+        },
+    };
+    console.log(requestUser_id);
+    return fetch(`${url}/all/${requestUser_id}`, init).then(response => response.json());
+}
+
+const deleteUser = (userToDelete) => {
+    const init = { 
+        method: 'DELETE',
+        headers: {
+            'content-type': 'application/json',
+        },
+    };
+    return fetch(`${url}/${userToDelete}`, init).then(response => response.json());
 }
 
 const defaultExport = {
     validateUser,
     addUser,
-    getUser 
+    getUser,
+    updateUser,
+    getUserById,
+    getAllUsers,
+    deleteUser,
+    updateUserRole,
 };
 
 export default defaultExport;

@@ -4,9 +4,10 @@ import FormFieldComponent from '../FormField/FormFieldComponent';
 import UserService from '../../services/UserService';
 import style from './SignUpComponent.module.css';
 import { useHistory } from 'react-router-dom';
-import NavigationComponent from '../Navigation/NavigationComponent';
+import { connect } from 'react-redux';
+import { addUserAction } from '../../actions/userAction';
 
-const SignUpComponent = () => {
+const SignUpComponent = ({ addUserDispatchAction }) => {
 
     const history = useHistory();
 
@@ -58,7 +59,9 @@ const SignUpComponent = () => {
             lastname: signUpDetails.lastname,
         }
         UserService.addUser(user).then((data) => {
-            if(data && data === 1) {
+            console.log('data1', data);
+            if(data) {
+                addUserDispatchAction(data);
                 history.push('/home');
             } else {
                 setSignUpDetails({
@@ -235,8 +238,8 @@ const SignUpComponent = () => {
                 onChangeEventHandler = {updateEmail}
                 divClass = {style.remove_margin} />
              <div className={`form-group row ${style.remove_margin}`}>
-                { isSignUpEnabled && <button className={`btn btn-success col-sm ${style.margin_btn}`} onClick = {(event) => signUp(event)}>Log In</button>}
-                { !isSignUpEnabled && <button className= {`btn btn-success col-sm ${style.margin_btn}`} onClick = {(event) => signUp(event)} disabled>Log In</button>}
+                { isSignUpEnabled && <button className={`btn btn-success col-sm ${style.margin_btn}`} onClick = {(event) => signUp(event)}>Sign Up</button>}
+                { !isSignUpEnabled && <button className= {`btn btn-success col-sm ${style.margin_btn}`} onClick = {(event) => signUp(event)} disabled>Sign Up</button>}
                 <button className={`btn btn-danger col-sm ${style.margin_btn}`} onClick = {(event) => cancel(event)}>Cancel</button>
                 { isClearEnabled &&  <button className={`btn btn-outline-secondary col-sm ${style.margin_btn}`} onClick = {(event) => clearAll(event)}>Clear</button>}
                 { !isClearEnabled &&  <button className={`btn btn-outline-secondary col-sm ${style.margin_btn}`} onClick = {(event) => clearAll(event)} disabled>Clear</button>}
@@ -246,4 +249,9 @@ const SignUpComponent = () => {
     )
 };
 
-export default SignUpComponent;
+const mapStateToProps = (state) => ({});
+const mapDispatchToProps = (dispatch) => ({
+    addUserDispatchAction : (user) => addUserAction(dispatch, user),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpComponent);

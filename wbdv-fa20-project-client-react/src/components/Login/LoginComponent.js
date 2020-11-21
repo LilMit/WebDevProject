@@ -4,7 +4,6 @@ import { Link, useHistory } from 'react-router-dom';
 import LoginService from '../../services/UserService';
 import AlertComponent from '../Alert/AlertComponent';
 import FormFieldComponent from '../FormField/FormFieldComponent';
-import NavigationComponent from '../Navigation/NavigationComponent';
 import style from './LoginComponent.module.css';
 import { addUserAction } from '../../actions/userAction';
 
@@ -73,25 +72,25 @@ const LoginComponent = ({ addUserDispatchAction }) => {
 
     const verifyLogin = (event) => {
         event.preventDefault();
-        // LoginService.validateUser(loginDetails.username, loginDetails.password).then((data) => {
-        //     if(data) {
-        //         addUserDispatchAction(data);
-        //         history.push('/home');
-        //     } else {
-        //         setLoginDetails({
-        //             ...intialState,
-        //             alert: 'd-block',
-        //         })
-        //     }
-        // }).catch((data) => {
-        //     setLoginDetails({
-        //         ...intialState,
-        //         alert: 'd-block',
-        //     })
-        // });
-        const user = LoginService.validateUser(loginDetails.username, loginDetails.password);
-        addUserDispatchAction(user);
-        history.push('/home');
+        LoginService.validateUser(loginDetails.username, loginDetails.password)
+        .then((data) => {
+            console.log('data',data);
+            if(data && !data.error) {
+                addUserDispatchAction(data);
+                history.push('/home');
+            } else {
+                setLoginDetails({
+                    ...intialState,
+                    alert: 'd-block',
+                });
+            }
+        }).catch((data) => {
+            console.log('data', data);
+            setLoginDetails({
+                ...intialState,
+                alert: 'd-block',
+            })
+        });
     };
 
     const removeAlert = (event) => {
