@@ -1,10 +1,10 @@
 import React from 'react';
 import HomeNavigation from '../../components/HomeNavigation/HomeNavigation';
 import NavigationComponent from '../../components/Navigation/NavigationComponent';
-import RecipeGridComponent from '../../components/RecipieGridLayout/RecipeGridComponent';
+import RecipeGridComponent from '../../components/RecipeGridLayout/RecipeGridComponent';
 import { connect } from 'react-redux';
 
-class OwnedRecipies extends React.Component {
+class SavedRecipes extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -23,7 +23,7 @@ class OwnedRecipies extends React.Component {
             <NavigationComponent />
             <div>
                 <HomeNavigation />
-                <RecipeGridComponent recipies={this.props.ownedRecipies} />
+                <RecipeGridComponent recipes={this.props.savedRecipes} />
             </div>
             </>
         );
@@ -31,7 +31,7 @@ class OwnedRecipies extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    ownedRecipies: state.recipeReducer.ownedRecipies,
+    savedRecipes: state.recipeReducer.savedRecipes,
 });
 
-export default connect(mapStateToProps)(OwnedRecipies);
+export default connect(mapStateToProps)(SavedRecipes);

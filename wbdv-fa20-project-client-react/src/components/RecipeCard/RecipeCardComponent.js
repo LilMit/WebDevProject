@@ -2,6 +2,7 @@ import React from 'react';
 import courselogo from '../../images/coursegridimage.webp';
 import './RecipeCard.module.css';
 import { Link } from 'react-router-dom';
+const IMAGEURL = "https://spoonacular.com/recipeImages/"
 
 const RecipeCardComponent = ({id, title, updatedAt, description, ownedBy, index}) => {
 
@@ -22,7 +23,8 @@ const RecipeCardComponent = ({id, title, updatedAt, description, ownedBy, index}
 
     return(
         <div className="card mr-1 ml-1">
-            <img className="card-img-top" src={courselogo} alt="Course Image" />
+            {/* <img className="card-img-top" src={`${IMAGEURL}${id}-${SIZE}.${TYPE}`} alt="Recipe Image" /> */}
+            <img className="card-img-top" src={courselogo} alt="Recipe Image" />
             <div className="card-body">
                 <Link to={`/recipe/${id}`} className="link custom-link"> 
                     <h5 className="card-title"><strong>{reduceTitle(title)}</strong></h5>

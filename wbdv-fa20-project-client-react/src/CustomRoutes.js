@@ -15,10 +15,10 @@ import './CustomRoutes.css';
 import { reducer } from './reducers/initialState';
 import { userReducer } from './reducers/userReducer';
 import { recipeReducer } from './reducers/recipeReducer';
-import SavedRecipiesContainer from './container/SavedRecipies/SavedRecipiesContainer';
-import OwnedRecipiesContainer from './container/OwnedRecipies/OwnedRecipiesContainer';
 import AllUsers from './container/Users/AllUsers';
 import ProfileComponent from './components/Profile/ProfileComponent';
+import OwnedRecipesContainer from './container/OwnedRecipes/OwnedRecipesContainer';
+import SavedRecipesContainer from './container/SavedRecipes/SavedRecipesContainer';
 
 const reducers = combineReducers({
   reducer,
@@ -45,8 +45,8 @@ class CustomRoutes extends React.Component {
             </Route>
             <Route path="/home" component = {Home} exact />
             <Route path="/users" component = { AllUsers } exact />
-            <Route path="/savedRecipies/:userId" component = {SavedRecipiesContainer} exact />
-            <Route path="/ownedRecipies/:userId" component = {OwnedRecipiesContainer} exact />
+            <Route path="/savedRecipies/:userId" component = {SavedRecipesContainer} exact />
+            <Route path="/ownedRecipies/:userId" component = {OwnedRecipesContainer} exact />
             <Route path="/">
               <Redirect to="/login" />
             </Route>
