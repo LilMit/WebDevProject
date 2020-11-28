@@ -7,6 +7,11 @@ export const GET_DETAILS = "GET_DETAILS";
 export const FIND_SAVED_RECIPES = "FIND_SAVED_RECIPES";
 export const FIND_OWNED_RECIPES = "FIND_OWNED_RECIPES";
 export const UPDATE_RECIPE = "UPDATE_RECIPE";
+export const FIND_RANDOM_RECIPES = "FIND_RANDOM";
+
+export const findRandomRecipes = (dispatch) => {
+    RecipeService.findRandomRecipes().then(actualRecipes=>dispatch({type:FIND_RANDOM_RECIPES, recipes: actualRecipes}))
+}
 
 export const searchRecipes = (dispatch, query) => {
     RecipeService.searchRecipes(query).then(actualRecipes=>dispatch({type:SEARCH_RECIPES, recipes: actualRecipes}))
