@@ -5,7 +5,7 @@ const initialState = {
     recipes: []
 }
 
-const recipeReducer = (state=initialState, action) => {
+export const recipeReducer = (state=initialState, action) => {
     switch (action.type) {
         case FIND_RANDOM_RECIPES:
             return {
@@ -26,5 +26,3 @@ const recipeReducer = (state=initialState, action) => {
             return state;
     }
 }
-
-export default recipeReducer

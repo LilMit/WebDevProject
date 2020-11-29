@@ -45,8 +45,8 @@ class CustomRoutes extends React.Component {
             </Route>
             <Route path="/home" component = {Home} exact />
             <Route path="/users" component = { AllUsers } exact />
-            <Route path="/savedRecipies/:userId" component = {SavedRecipesContainer} exact />
-            <Route path="/ownedRecipies/:userId" component = {OwnedRecipesContainer} exact />
+            <Route path="/savedRecipes/:userId" component = {SavedRecipesContainer} exact />
+            <Route path="/ownedRecipes/:userId" component = {OwnedRecipesContainer} exact />
             <Route path="/">
               <Redirect to="/login" />
             </Route>
