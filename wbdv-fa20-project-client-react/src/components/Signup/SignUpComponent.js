@@ -60,25 +60,19 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
         }
         UserService.addUser(user).then((data) => {
             console.log('data1', data);
-            if(data) {
+            if(data && !data.error) {
                 addUserDispatchAction(data);
                 history.push('/home');
             } else {
                 setSignUpDetails({
-                    ...intialState,
-                    alert: 'd-block',
-                })
-            }
-        }).catch((data) => {
-            if(data === -1){
-                setSignUpDetails({
                     ...signUpDetails,
                     username: '',
                     alert: 'd-block',
-                    alertMessage: 'Username is already taked enter another one.'
+                    alertMessage: 'Username is already taken enter another one.'
                 })
                 return;
             }
+        }).catch((data) => {
             setSignUpDetails({
                 ...signUpDetails,
                 alert: 'd-block',

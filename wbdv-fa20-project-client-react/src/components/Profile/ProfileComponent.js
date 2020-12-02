@@ -38,11 +38,18 @@ const Profile = ({ addUserDispatchAction , loggedInUser}) => {
         if(history.location.state && history.location.state.user) {
             const { user } = history.location.state;
             UserService.getUserById(user._id).then((data) => {
-                intialState = {
-                    ...intialState,
-                    ...data,
-                };
-                setProfileDetails(intialState);
+                if(data.error) {
+                    setProfileDetails({
+                        ...intialState,
+                        alert: 'd-block',
+                    });
+                } else {
+                    intialState = {
+                        ...intialState,
+                        ...data,
+                    };
+                    setProfileDetails(intialState);
+                }
             });
         }
 
@@ -82,11 +89,11 @@ const Profile = ({ addUserDispatchAction , loggedInUser}) => {
             lastname: profileDetails.lastname,
         };
         UserService.updateUser(user._id, user).then((data) => {
-            if(data) {
+            if(data && !data.error) {
                 if(profileDetails.isRoleChanged) {
                     UserService.updateUserRole(loggedInUser._id, user._id, profileDetails.type)
                     .then((updatedRole) => {
-                        if(updatedRole) {
+                        if(updatedRole && !updatedRole.error) {
                             addUserDispatchAction(updatedRole);
                         } else {
                             setProfileDetails({
