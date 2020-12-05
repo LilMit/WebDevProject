@@ -2,7 +2,8 @@ import {FIND_RANDOM_RECIPES, GET_DETAILS, SEARCH_RECIPES} from "../actions/recip
 
 const date = new Date().toDateString();
 const initialState = {
-    recipes: []
+    recipes: [],
+    recipe: {readyInMinutes: 0, image: "", title: "", servings: 0, sourceUrl:"", ingredients:"", instructions:""}
 }
 
 export const recipeReducer = (state=initialState, action) => {

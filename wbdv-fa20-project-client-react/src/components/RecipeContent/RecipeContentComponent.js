@@ -23,6 +23,7 @@ const RecipeContent = ({recipe}) => {
                         <li>Time to prepare: {recipe.readyInMinutes}</li>
                         <li>Serves: {recipe.servings}</li>
                         <li>Original Posting: <a className="nav-link" href={recipe.sourceUrl}>{recipe.title}</a>
+                            <li>rate recipe stars (only if user logged in)</li>
                         </li>
                     </ul>
                 </div>
@@ -35,6 +36,9 @@ const RecipeContent = ({recipe}) => {
                 <div className = "col">
                     <p>{recipe.instructions}</p>
                 </div>
+            </div>
+            <div className="row">
+                <h1>Reviews (review component placeholder)</h1>
             </div>
         </div>
     );

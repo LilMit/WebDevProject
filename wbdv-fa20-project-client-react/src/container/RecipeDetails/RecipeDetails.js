@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import {findRandomRecipes} from "../../actions/recipeAction";
 import {getRecipeDetails} from "../../services/RecipeService";
 import RecipeContent from "../../components/RecipeContent/RecipeContentComponent";
+import {getDetails} from "../../actions/recipeAction";
 
 class RecipeDetails
 extends
@@ -15,7 +16,7 @@ React.Component {
     }
 
     componentDidMount() {
-        const recipeId = this.props.match.params(recipeId)
+        const recipeId = this.props.match.params.recipeId
         this.props.getRecipeDetails(recipeId);
     }
 
@@ -42,7 +43,7 @@ React.Component {
 
     const mapPropsToDispatch = (dispatch) =>
         ({
-            getRecipeDetails: (recipeId) => getRecipeDetails(dispatch, recipeId)
+            getRecipeDetails: (recipeId) => getDetails(dispatch, recipeId)
         })
 
 export default

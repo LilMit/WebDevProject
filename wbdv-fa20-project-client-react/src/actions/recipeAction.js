@@ -11,14 +11,14 @@ export const FIND_RANDOM_RECIPES = "FIND_RANDOM";
 
 export const findRandomRecipes = (dispatch) => {
     RecipeService.findRandomRecipes().
-        then(actualRecipes => dispatch({type: FIND_RANDOM_RECIPES, recipes: actualRecipes}))
+        then(actualRecipes => {console.log(actualRecipes); dispatch({type: FIND_RANDOM_RECIPES, recipes: actualRecipes.recipes})})
 }
 
 export const searchRecipes = (dispatch, query) => {
-    RecipeService.searchRecipes(query).then(actualRecipes => dispatch({type: SEARCH_RECIPES, recipes: actualRecipes}))
+    RecipeService.searchRecipes(query).then(actualRecipes => dispatch({type: SEARCH_RECIPES, recipes: actualRecipes.recipes}))
 }
 
 export const getDetails = (dispatch, recipeId) => {
-    RecipeService.getRecipeDetails(recipeId).then(actualRecipe => dispatch({type: GET_DETAILS, recipe: actualRecipe}))
+    RecipeService.getRecipeDetails(recipeId).then(actualRecipe => {console.log(actualRecipe); dispatch({type: GET_DETAILS, recipe: actualRecipe})})
 }
 
