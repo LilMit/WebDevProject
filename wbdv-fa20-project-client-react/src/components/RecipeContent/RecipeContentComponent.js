@@ -20,8 +20,8 @@ const RecipeContent = ({recipe}) => {
                 </div>
                 <div className="col">
                     <ul>
-                        <li><i className"far fa-clock"></i>Time to prepare: {recipe.readyInMinutes}</li>
-                        <li><i className="fas fa-utensils"></i>Serves: {recipe.servings}</li>
+                        <li>Time to prepare: {recipe.readyInMinutes}</li>
+                        <li>Serves: {recipe.servings}</li>
                         <li>Original Posting: <a className="nav-link" href={recipe.sourceUrl}>{recipe.title}</a>
                         </li>
                     </ul>
@@ -30,10 +30,10 @@ const RecipeContent = ({recipe}) => {
             <div className="row">
                 <div className = "col">
             //TODO create ingredients component, render as unordered list
-            {recipe.ingredients}
+                    <p>{recipe.ingredients}</p>
                 </div>
                 <div className = "col">
-                    {recipe.instructions}
+                    <p>{recipe.instructions}</p>
                 </div>
             </div>
         </div>

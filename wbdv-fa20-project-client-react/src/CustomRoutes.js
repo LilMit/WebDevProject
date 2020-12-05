@@ -19,6 +19,7 @@ import AllUsers from './container/Users/AllUsers';
 import ProfileComponent from './components/Profile/ProfileComponent';
 import OwnedRecipesContainer from './container/OwnedRecipes/OwnedRecipesContainer';
 import SavedRecipesContainer from './container/SavedRecipes/SavedRecipesContainer';
+import RecipeDetails from "./container/RecipeDetails/RecipeDetails";
 
 const reducers = combineReducers({
   reducer,

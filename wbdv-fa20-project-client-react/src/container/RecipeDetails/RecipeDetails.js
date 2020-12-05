@@ -5,6 +5,7 @@ import RecipeGridComponent from '../../components/RecipeGridLayout/RecipeGridCom
 import {connect} from 'react-redux';
 import {findRandomRecipes} from "../../actions/recipeAction";
 import {getRecipeDetails} from "../../services/RecipeService";
+import RecipeContent from "../../components/RecipeContent/RecipeContentComponent";
 
 class RecipeDetails
 extends
