@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import IngredientsComponent from "./IngredientsComponent";
+import InstructionsComponent from "./InstructionsComponent";
 
 
 const RecipeContent = ({recipe}) => {
@@ -31,11 +32,11 @@ const RecipeContent = ({recipe}) => {
                 </div>
             </div>
             <div className="row">
-                {console.log(recipe)}
                     <IngredientsComponent {...recipe}/>
+                    {/*<InstructionsComponent {...recipe}/>*/}
                 <div className = "col">
                     <h3>Instructions</h3>
-                    <p>{recipe.instructions}</p>
+                    {recipe.instructions}
                 </div>
             </div>
             <div className="row">

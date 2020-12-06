@@ -49,13 +49,6 @@ class CustomRoutes extends React.Component {
               <NavigationComponent />
               <ProfileComponent />
             </Route>
-            {/*<Route path="/home?criteria=:criteria">*/}
-            {/*  <Redirect to="/search/:criteria" />*/}
-            {/*</Route>*/}
-
-            <Route path="/home?query=:query" >
-              <Redirect to="/search/:query"/>
-            </Route>
             <Route path="/home" component = {Home} exact />
             <Route path="/search/:query" exact component={SearchResultsPage}/>
             <Route path="/users" component = { AllUsers } exact />

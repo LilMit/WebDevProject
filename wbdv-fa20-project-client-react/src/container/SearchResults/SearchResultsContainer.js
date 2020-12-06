@@ -16,6 +16,7 @@ class SearchResultsPage extends React.Component {
         this.props.searchRecipes(query)
     }
 
+    // TODO doesn't update when search updates, but putting it in componentDidUpdate causes infinite loop (RIP api calls)
     componentDidUpdate() {
 
     }

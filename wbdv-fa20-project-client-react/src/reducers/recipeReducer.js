@@ -6,11 +6,10 @@ const initialState = {
     // TODO add created/updated date/timestamps
     recipe: {
         readyInMinutes: 0, image: "", title: "", servings: 0, sourceUrl: "", ingredients: [], instructions: "",
-        extendedIngredients: [], user_id: "", analyzedInstructions: []
+        extendedIngredients: [], user_id: -1, analyzedInstructions: [{steps: [{number: "", step: ""}]}]
     },
     extendedIngredient: {originalString: ""},
-    analyzedInstruction: {steps: []},
-    steps: {number: "", step: ""},
+    // steps: {number: "", step: ""},
     query: ""
 }
 
