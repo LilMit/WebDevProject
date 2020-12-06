@@ -13,6 +13,7 @@ class SearchResultsPage extends React.Component {
     componentDidMount() {
         const query = this.props.match.params.query;
         // const query = this.props.match.params.query.split('?query=').pop();
+        // TODO: this isnt waiting for response before render
         this.props.searchRecipes(query)
     }
 

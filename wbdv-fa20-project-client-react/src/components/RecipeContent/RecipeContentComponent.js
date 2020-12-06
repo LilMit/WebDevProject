@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import IngredientsComponent from "./IngredientsComponent";
 import InstructionsComponent from "./InstructionsComponent";
 
-
+//TODO if user not logged in, redirect to login page when rate or save recipe is clicked
 const RecipeContent = ({recipe}) => {
 
     const getFormattedDate = (date) => {
@@ -22,12 +22,13 @@ const RecipeContent = ({recipe}) => {
                     <img className="card-img-top" src={recipe.image} alt="Recipe Image"/>
                 </div>
                 <div className="col">
-                    <ul>
-                        <li>Time to prepare: {recipe.readyInMinutes}</li>
-                        <li>Serves: {recipe.servings}</li>
-                        <li>Original Posting: <a className="nav-link" href={recipe.sourceUrl}>{recipe.title}</a>
-                            <li>rate recipe stars (only if user logged in)</li>
+                    <ul className="list-group">
+                        <li className="list-group-item">Time to prepare: {recipe.readyInMinutes} minutes </li>
+                        <li className="list-group-item">Serves: {recipe.servings}</li>
+                        <li className="list-group-item">Original Posting: <a className="nav-link" href={recipe.sourceUrl}>{recipe.title}</a>
                         </li>
+                        {/*TODO lookup/calculate rating for recipe*/}
+                        <li className="list-group-item">Rating:</li>
                     </ul>
                 </div>
             </div>
@@ -40,6 +41,7 @@ const RecipeContent = ({recipe}) => {
                 </div>
             </div>
             <div className="row">
+                {/*TODO reviews component*/}
                 <h1>Reviews (review component placeholder)</h1>
             </div>
         </div>

@@ -9,6 +9,7 @@ const HomeNavigation = ({query, update, search}) => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="justify-content-center" id="recipeNav">
+                {/*enter to submit form will not execute search*/}
                 <form className="form-inline my-2 my-lg-0">
                     <input className="form-control mr-1 mr-sm-2" type="search" name="query" placeholder="Search"
                            aria-label="Search" onChange={(event)=>update(event.target.value)}/>
