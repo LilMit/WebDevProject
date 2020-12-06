@@ -20,6 +20,7 @@ import ProfileComponent from './components/Profile/ProfileComponent';
 import OwnedRecipesContainer from './container/OwnedRecipes/OwnedRecipesContainer';
 import SavedRecipesContainer from './container/SavedRecipes/SavedRecipesContainer';
 import RecipeDetails from "./container/RecipeDetails/RecipeDetails";
+import SearchResultsPage from "./components/SearchResults/SearchResultsComponent";
 
 const reducers = combineReducers({
   reducer,
@@ -44,7 +45,11 @@ class CustomRoutes extends React.Component {
               <NavigationComponent />
               <ProfileComponent />
             </Route>
+            <Route path="/home?query=:query">
+              <Redirect to="/search/:query" />
+            </Route>
             <Route path="/home" component = {Home} exact />
+            <Route path="/search/:query" component={SearchResultsPage} exact />
             <Route path="/users" component = { AllUsers } exact />
             <Route path="/savedRecipes/:userId" component = {SavedRecipesContainer} exact />
             <Route path="/ownedRecipes/:userId" component = {OwnedRecipesContainer} exact />

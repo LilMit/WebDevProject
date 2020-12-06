@@ -3,7 +3,7 @@ import HomeNavigation from '../../components/HomeNavigation/HomeNavigation';
 import NavigationComponent from '../../components/Navigation/NavigationComponent';
 import RecipeGridComponent from '../../components/RecipeGridLayout/RecipeGridComponent';
 import { connect } from 'react-redux';
-import {findRandomRecipes} from "../../actions/recipeAction";
+import {findRandomRecipes, searchRecipes} from "../../actions/recipeAction";
 
 class Home extends React.Component {
     constructor(props) {
@@ -15,7 +15,8 @@ class Home extends React.Component {
     }
 
     componentDidUpdate() {
-
+        // const query = this.props.match.params(query)
+        // this.props.searchRecipes(query)
     }
 
     render() {
@@ -37,7 +38,8 @@ const mapStateToProps = (state) => ({
 
 const mapPropsToDispatch = (dispatch) =>
     ({
-        findRandomRecipes: ()=> findRandomRecipes(dispatch)
+        findRandomRecipes: ()=> findRandomRecipes(dispatch),
+        searchRecipes: (query)=> searchRecipes(dispatch, query)
     })
 
 export default connect(mapStateToProps, mapPropsToDispatch)(Home);

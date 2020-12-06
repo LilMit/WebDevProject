@@ -1,4 +1,4 @@
-import {FIND_RANDOM_RECIPES, GET_DETAILS, SEARCH_RECIPES} from "../actions/recipeAction";
+import {FIND_RANDOM_RECIPES, GET_DETAILS, SEARCH_RECIPES, UPDATE_QUERY} from "../actions/recipeAction";
 
 const date = new Date().toDateString();
 const initialState = {
@@ -9,7 +9,8 @@ const initialState = {
     },
     extendedIngredient: {originalString: ""},
     analyzedInstruction: {steps: []},
-    steps: {number: "", step: ""}
+    steps: {number: "", step: ""},
+    query: ""
 }
 
 export const recipeReducer = (state = initialState, action) => {
@@ -28,6 +29,11 @@ export const recipeReducer = (state = initialState, action) => {
             return {
                 ...state,
                 recipe: action.recipe
+            }
+        case UPDATE_QUERY:
+            return {
+                ...state,
+                query: action.query
             }
         default:
             return state;
