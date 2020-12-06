@@ -3,6 +3,7 @@ import {FIND_RANDOM_RECIPES, GET_DETAILS, SEARCH_RECIPES, UPDATE_QUERY} from "..
 const date = new Date().toDateString();
 const initialState = {
     recipes: [],
+    // TODO add created/updated date/timestamps
     recipe: {
         readyInMinutes: 0, image: "", title: "", servings: 0, sourceUrl: "", ingredients: [], instructions: "",
         extendedIngredients: [], user_id: "", analyzedInstructions: []

@@ -21,7 +21,7 @@ export const updateQuery = (dispatch, query) => {
 }
 
 export const searchRecipes = (dispatch, query) => {
-    RecipeService.searchRecipes(query).then(actualRecipes => dispatch({type: SEARCH_RECIPES, recipes: actualRecipes.recipes}))
+    RecipeService.searchRecipes(query).then(actualRecipes => dispatch({type: SEARCH_RECIPES, recipes: actualRecipes.results}))
 }
 
 export const getDetails = (dispatch, recipeId) => {

@@ -5,6 +5,8 @@ import RecipeGridComponent from '../../components/RecipeGridLayout/RecipeGridCom
 import { connect } from 'react-redux';
 import {findRandomRecipes, searchRecipes} from "../../actions/recipeAction";
 
+// TODO: must be dynamic based on most recent info - eg show a row of recently reviewed or created recipes?
+// TODO: must be dynamic basd on logged in user - eg show a row of user's recently saved recipes?
 class Home extends React.Component {
     constructor(props) {
         super(props);
