@@ -1,4 +1,6 @@
 import React from 'react';
+import {connect} from 'react-redux'
+import IngredientsComponent from "./IngredientsComponent";
 
 
 const RecipeContent = ({recipe}) => {
@@ -13,7 +15,7 @@ const RecipeContent = ({recipe}) => {
 
     return (
         <div className="container">
-            <h1>recipe.title</h1>
+            <h1>{recipe.title}</h1>
             <div className="row">
                 <div className="col">
                     <img className="card-img-top" src={recipe.image} alt="Recipe Image"/>
@@ -29,11 +31,10 @@ const RecipeContent = ({recipe}) => {
                 </div>
             </div>
             <div className="row">
+                {console.log(recipe)}
+                    <IngredientsComponent {...recipe}/>
                 <div className = "col">
-            //TODO create ingredients component, render as unordered list
-                    <p>{recipe.ingredients}</p>
-                </div>
-                <div className = "col">
+                    <h3>Instructions</h3>
                     <p>{recipe.instructions}</p>
                 </div>
             </div>
@@ -43,5 +44,7 @@ const RecipeContent = ({recipe}) => {
         </div>
     );
 }
-
-export default RecipeContent;
+const mapStateToProps = (state) => ({
+    recipe: state.recipeReducer.recipe
+})
+export default connect(mapStateToProps) (RecipeContent);
