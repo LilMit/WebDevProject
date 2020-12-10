@@ -1,11 +1,9 @@
-const initialState = {
-   
-};
+const initialState = {};
 const ADD_HISTORY = 'ADD_HISTORY';
 
 export const reducer = (state = initialState, action) => {
     let newState;
-    switch(action) {
+    switch (action) {
         case ADD_HISTORY:
             newState = {
                 ...initialState,

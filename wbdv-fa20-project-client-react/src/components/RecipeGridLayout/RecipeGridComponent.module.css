@@ -2,31 +2,31 @@
     column-count: 1;
 }
 
-@media (min-width: 576px){
+@media (min-width: 576px) {
     .card_columns {
         column-count: 2;
     }
 }
 
-@media (min-width: 768px){
+@media (min-width: 768px) {
     .card_columns {
         column-count: 3;
     }
 }
 
-@media (min-width: 992px ){
+@media (min-width: 992px ) {
     .card_columns {
         column-count: 4;
     }
 }
 
-@media (min-width: 1200px ){
+@media (min-width: 1200px ) {
     .card_columns {
         column-count: 6;
     }
 }
 
-@media (min-width: 1600px ){
+@media (min-width: 1600px ) {
     .card_columns {
         column-count: 8;
     }

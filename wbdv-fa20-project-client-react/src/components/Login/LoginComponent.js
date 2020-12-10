@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import React, {useState} from 'react';
+import {connect} from 'react-redux';
+import {Link, useHistory} from 'react-router-dom';
 import LoginService from '../../services/UserService';
 import AlertComponent from '../Alert/AlertComponent';
 import FormFieldComponent from '../FormField/FormFieldComponent';
 import style from './LoginComponent.module.css';
-import { addUserAction } from '../../actions/userAction';
+import {addUserAction} from '../../actions/userAction';
 
-const LoginComponent = ({ addUserDispatchAction }) => {
+const LoginComponent = ({addUserDispatchAction}) => {
 
     const intialState = {
         username: '',
@@ -22,7 +22,7 @@ const LoginComponent = ({ addUserDispatchAction }) => {
     const history = useHistory();
     const updateUsername = (event) => {
         event.preventDefault();
-        if(event.target.value.trim() === ''){
+        if (event.target.value.trim() === '') {
             setLoginDetails({
                 ...loginDetails,
                 username: event.target.value,
@@ -41,7 +41,7 @@ const LoginComponent = ({ addUserDispatchAction }) => {
 
     const updatePassword = (event) => {
         event.preventDefault();
-        if(event.target.value.trim() === ''){
+        if (event.target.value.trim() === '') {
             setLoginDetails({
                 ...loginDetails,
                 password: event.target.value,
@@ -61,7 +61,7 @@ const LoginComponent = ({ addUserDispatchAction }) => {
     const clearAll = (event) => {
         event.preventDefault();
         setLoginDetails({
-          ...intialState
+            ...intialState
         });
     }
 
@@ -73,18 +73,18 @@ const LoginComponent = ({ addUserDispatchAction }) => {
     const verifyLogin = (event) => {
         event.preventDefault();
         LoginService.validateUser(loginDetails.username, loginDetails.password)
-        .then((data) => {
-            console.log('data',data);
-            if(data && !data.error) {
-                addUserDispatchAction(data);
-                history.push('/home');
-            } else {
-                setLoginDetails({
-                    ...intialState,
-                    alert: 'd-block',
-                });
-            }
-        }).catch((data) => {
+            .then((data) => {
+                console.log('data', data);
+                if (data && !data.error) {
+                    addUserDispatchAction(data);
+                    history.push('/home');
+                } else {
+                    setLoginDetails({
+                        ...intialState,
+                        alert: 'd-block',
+                    });
+                }
+            }).catch((data) => {
             console.log('data', data);
             setLoginDetails({
                 ...intialState,
@@ -101,7 +101,7 @@ const LoginComponent = ({ addUserDispatchAction }) => {
         });
     };
 
-    return(
+    return (
         <div className={`${style.outlier}`}>
             <div className={style.custom_login_container}>
                 <div className={`jumbotron row justify-content-center ${style.remove_margin}`}>
@@ -110,36 +110,46 @@ const LoginComponent = ({ addUserDispatchAction }) => {
                 <AlertComponent
                     displayClass={loginDetails.alert}
                     cancelButtonHandler={removeAlert}
-                    alertMessage = "Invalid username or password." />
+                    alertMessage="Invalid username or password."/>
                 <FormFieldComponent
-                    label = "Username"
-                    placeholder = "Devansh"
-                    inputValue = {loginDetails.username}
-                    inputType = 'text'
-                    id = 'username'
-                    onChangeEventHandler = {updateUsername}
-                    divClass = {style.remove_margin} />
+                    label="Username"
+                    placeholder="Devansh"
+                    inputValue={loginDetails.username}
+                    inputType='text'
+                    id='username'
+                    onChangeEventHandler={updateUsername}
+                    divClass={style.remove_margin}/>
                 <FormFieldComponent
-                    label = "Password"
-                    placeholder = "QWERTasdfg"
-                    inputValue = {loginDetails.password}
-                    inputType = 'password'
-                    id = 'password'
-                    onChangeEventHandler = {updatePassword}
-                    divClass = {style.remove_margin} />
+                    label="Password"
+                    placeholder="QWERTasdfg"
+                    inputValue={loginDetails.password}
+                    inputType='password'
+                    id='password'
+                    onChangeEventHandler={updatePassword}
+                    divClass={style.remove_margin}/>
                 <div className={`form-group row ${style.remove_margin}`}>
-                    { loginDetails.isUsernameUpdate && loginDetails.isPasswordUpdated && <button className={`btn btn-success col-sm ${style.margin_btn}`} onClick = {(event) => verifyLogin(event)}>Log In</button>}
-                    { (!loginDetails.isUsernameUpdate || !loginDetails.isPasswordUpdated) && <button className= {`btn btn-success col-sm ${style.margin_btn}`} onClick = {(event) => verifyLogin(event)} disabled>Log In</button>}
-                    <button className={`btn btn-danger col-sm ${style.margin_btn}`} onClick = {(event) => cancel(event)}>Cancel</button>
-                    {  (loginDetails.isUsernameUpdate || loginDetails.isPasswordUpdated) &&  <button className={`btn btn-outline-secondary col-sm ${style.margin_btn}`} onClick = {(event) => clearAll(event)}>Clear</button>}
-                    {  (!loginDetails.isUsernameUpdate && !loginDetails.isPasswordUpdated) &&  <button className={`btn btn-outline-secondary col-sm ${style.margin_btn}`} onClick = {(event) => clearAll(event)} disabled>Clear</button>}
+                    {loginDetails.isUsernameUpdate && loginDetails.isPasswordUpdated &&
+                    <button className={`btn btn-success col-sm ${style.margin_btn}`}
+                            onClick={(event) => verifyLogin(event)}>Log In</button>}
+                    {(!loginDetails.isUsernameUpdate || !loginDetails.isPasswordUpdated) &&
+                    <button className={`btn btn-success col-sm ${style.margin_btn}`}
+                            onClick={(event) => verifyLogin(event)} disabled>Log In</button>}
+                    <button className={`btn btn-danger col-sm ${style.margin_btn}`}
+                            onClick={(event) => cancel(event)}>Cancel
+                    </button>
+                    {(loginDetails.isUsernameUpdate || loginDetails.isPasswordUpdated) &&
+                    <button className={`btn btn-outline-secondary col-sm ${style.margin_btn}`}
+                            onClick={(event) => clearAll(event)}>Clear</button>}
+                    {(!loginDetails.isUsernameUpdate && !loginDetails.isPasswordUpdated) &&
+                    <button className={`btn btn-outline-secondary col-sm ${style.margin_btn}`}
+                            onClick={(event) => clearAll(event)} disabled>Clear</button>}
                 </div>
                 <div className={`form-group row ${style.remove_margin}`}>
                     <div className="col-6">
                         <a href="#">Forgot Password?</a>
                     </div>
                     <div className="col-6">
-                        <Link to="/signup" className="float-right">Sign up</Link>
+                        <Link to="/signUp" className="float-right">Sign up</Link>
                     </div>
                 </div>
             </div>
@@ -149,7 +159,7 @@ const LoginComponent = ({ addUserDispatchAction }) => {
 
 const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch) => ({
-    addUserDispatchAction : (user) => addUserAction(dispatch, user),
+    addUserDispatchAction: (user) => addUserAction(dispatch, user),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent);

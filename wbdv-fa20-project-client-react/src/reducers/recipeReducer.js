@@ -1,4 +1,4 @@
-import {FIND_RANDOM_RECIPES, GET_DETAILS, SEARCH_RECIPES} from "../actions/recipeAction";
+import {FIND_RANDOM_RECIPES, GET_RECIPE_DETAILS, SEARCH_RECIPES} from "../actions/recipeAction";
 
 const date = new Date().toDateString();
 const initialState = {
@@ -24,7 +24,7 @@ export const recipeReducer = (state = initialState, action) => {
                 ...state,
                 recipes: action.recipes
             }
-        case GET_DETAILS:
+        case GET_RECIPE_DETAILS:
             return {
                 ...state,
                 recipe: action.recipe

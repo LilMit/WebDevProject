@@ -1,8 +1,8 @@
-import { ADD_USER, DELETE_USER, ADD_ALL_USERS, UPDATE_USER } from '../actions/userAction';
+import {ADD_ALL_USERS, ADD_USER, DELETE_USER, UPDATE_USER} from '../actions/userAction';
 
 let sessionState = localStorage.getItem('userReducer');
 
-if(!sessionState) {
+if (!sessionState) {
     sessionState = {};
 } else {
     sessionState = JSON.parse(sessionState);
@@ -24,11 +24,11 @@ const intitialState = {
     ...logoutState,
     ...sessionState,
 };
-  
+
 export const userReducer = (state = intitialState, action) => {
     let newState = state;
     let user;
-    switch(action.type) {
+    switch (action.type) {
         case ADD_USER:
             user = action.user;
             newState = {
