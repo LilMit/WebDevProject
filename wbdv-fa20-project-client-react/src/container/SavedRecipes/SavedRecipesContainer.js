@@ -2,7 +2,7 @@ import React from 'react';
 import HomeNavigation from '../../components/HomeNavigation/HomeNavigation';
 import NavigationComponent from '../../components/Navigation/NavigationComponent';
 import RecipeGridComponent from '../../components/RecipeGridLayout/RecipeGridComponent';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 class SavedRecipes extends React.Component {
     constructor(props) {
@@ -20,11 +20,11 @@ class SavedRecipes extends React.Component {
     render() {
         return (
             <>
-            <NavigationComponent />
-            <div>
-                <HomeNavigation />
-                <RecipeGridComponent recipes={this.props.savedRecipes} />
-            </div>
+                <NavigationComponent/>
+                <div>
+                    <HomeNavigation/>
+                    <RecipeGridComponent recipes={this.props.savedRecipes}/>
+                </div>
             </>
         );
     }

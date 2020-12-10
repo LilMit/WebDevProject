@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import AlertComponent from '../Alert/AlertComponent';
 import FormFieldComponent from '../FormField/FormFieldComponent';
 import UserService from '../../services/UserService';
 import style from './SignUpComponent.module.css';
-import { useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { addUserAction } from '../../actions/userAction';
+import {useHistory} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {addUserAction} from '../../actions/userAction';
 
-const SignUpComponent = ({ addUserDispatchAction }) => {
+const SignUpComponent = ({addUserDispatchAction}) => {
 
     const history = useHistory();
 
@@ -25,7 +25,7 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
         alert: 'd-none',
         alertMessage: 'Cannot add user. All field are required.',
     };
-    
+
     const [signUpDetails, setSignUpDetails] = useState(intialState);
 
     const removeAlert = (event) => {
@@ -40,7 +40,7 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
     const clearAll = (event) => {
         event.preventDefault();
         setSignUpDetails({
-          ...intialState
+            ...intialState
         });
     }
 
@@ -60,7 +60,7 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
         }
         UserService.addUser(user).then((data) => {
             console.log('data1', data);
-            if(data && !data.error) {
+            if (data && !data.error) {
                 addUserDispatchAction(data);
                 history.push('/home');
             } else {
@@ -82,7 +82,7 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
 
     const updateUsername = (event) => {
         event.preventDefault();
-        if(event.target.value.trim() === ''){
+        if (event.target.value.trim() === '') {
             setSignUpDetails({
                 ...signUpDetails,
                 username: event.target.value,
@@ -101,7 +101,7 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
 
     const updatePassword = (event) => {
         event.preventDefault();
-        if(event.target.value.trim() === ''){
+        if (event.target.value.trim() === '') {
             setSignUpDetails({
                 ...signUpDetails,
                 password: event.target.value,
@@ -120,7 +120,7 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
 
     const updateFirstName = (event) => {
         event.preventDefault();
-        if(event.target.value.trim() === ''){
+        if (event.target.value.trim() === '') {
             setSignUpDetails({
                 ...signUpDetails,
                 firstname: event.target.value,
@@ -139,7 +139,7 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
 
     const updateLastName = (event) => {
         event.preventDefault();
-        if(event.target.value.trim() === ''){
+        if (event.target.value.trim() === '') {
             setSignUpDetails({
                 ...signUpDetails,
                 lastname: event.target.value,
@@ -158,7 +158,7 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
 
     const updateEmail = (event) => {
         event.preventDefault();
-        if(event.target.value.trim() === ''){
+        if (event.target.value.trim() === '') {
             setSignUpDetails({
                 ...signUpDetails,
                 email: event.target.value,
@@ -176,68 +176,75 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
     };
 
     const isSignUpEnabled = (signUpDetails.isUsernameUpdated && signUpDetails.isPasswordUpdated
-                            && signUpDetails.isLastnameUpdated && signUpDetails.isFirstnameUpdated
-                            && signUpDetails.isEmailUpdated);
+        && signUpDetails.isLastnameUpdated && signUpDetails.isFirstnameUpdated
+        && signUpDetails.isEmailUpdated);
     const isClearEnabled = (signUpDetails.isUsernameUpdated || signUpDetails.isPasswordUpdated
-                            || signUpDetails.isLastnameUpdated || signUpDetails.isFirstnameUpdated
-                            || signUpDetails.isEmailUpdated);
+        || signUpDetails.isLastnameUpdated || signUpDetails.isFirstnameUpdated
+        || signUpDetails.isEmailUpdated);
     return (
         <div className={`${style.outlier}`}>
             <div className={`${style.custom_sign_up_container}`}>
-            <div className={`jumbotron row justify-content-center ${style.remove_margin}`}>
+                <div className={`jumbotron row justify-content-center ${style.remove_margin}`}>
                     <h1> Sign Up </h1>
-            </div>
-            <AlertComponent
-                displayClass={signUpDetails.alert}
-                cancelButtonHandler={removeAlert}
-                alertMessage =  {signUpDetails.alertMessage}/>
-            <FormFieldComponent
-                    label = "Username"
-                    placeholder = "John"
-                    inputValue = {signUpDetails.username}
-                    inputType = 'text'
-                    id = 'username'
-                    onChangeEventHandler = {updateUsername}
-                    divClass = {style.remove_margin} />
-            <FormFieldComponent
-                    label = "Password"
-                    placeholder = "QWERTasdfg"
-                    inputValue = {signUpDetails.password}
-                    inputType = 'password'
-                    id = 'password'
-                    onChangeEventHandler = {updatePassword}
-                    divClass = {style.remove_margin} />
-            <FormFieldComponent
-                label = "Firstname"
-                placeholder = "John"
-                inputValue = {signUpDetails.firstname}
-                inputType = 'text'
-                id = 'firstName'
-                onChangeEventHandler = {updateFirstName}
-                divClass = {style.remove_margin} />
-            <FormFieldComponent
-                label = "Lastname"
-                placeholder = "Wick"
-                inputValue = {signUpDetails.lastname}
-                inputType = 'text'
-                id = 'lastName'
-                onChangeEventHandler = {updateLastName}
-                divClass = {style.remove_margin} />
-            <FormFieldComponent
-                label = "Email"
-                placeholder = "John_Wick@email.com"
-                inputValue = {signUpDetails.email}
-                inputType = 'email'
-                id = 'email'
-                onChangeEventHandler = {updateEmail}
-                divClass = {style.remove_margin} />
-             <div className={`form-group row ${style.remove_margin}`}>
-                { isSignUpEnabled && <button className={`btn btn-success col-sm ${style.margin_btn}`} onClick = {(event) => signUp(event)}>Sign Up</button>}
-                { !isSignUpEnabled && <button className= {`btn btn-success col-sm ${style.margin_btn}`} onClick = {(event) => signUp(event)} disabled>Sign Up</button>}
-                <button className={`btn btn-danger col-sm ${style.margin_btn}`} onClick = {(event) => cancel(event)}>Cancel</button>
-                { isClearEnabled &&  <button className={`btn btn-outline-secondary col-sm ${style.margin_btn}`} onClick = {(event) => clearAll(event)}>Clear</button>}
-                { !isClearEnabled &&  <button className={`btn btn-outline-secondary col-sm ${style.margin_btn}`} onClick = {(event) => clearAll(event)} disabled>Clear</button>}
-            </div>
+                </div>
+                <AlertComponent
+                    displayClass={signUpDetails.alert}
+                    cancelButtonHandler={removeAlert}
+                    alertMessage={signUpDetails.alertMessage}/>
+                <FormFieldComponent
+                    label="Username"
+                    placeholder="John"
+                    inputValue={signUpDetails.username}
+                    inputType='text'
+                    id='username'
+                    onChangeEventHandler={updateUsername}
+                    divClass={style.remove_margin}/>
+                <FormFieldComponent
+                    label="Password"
+                    placeholder="QWERTasdfg"
+                    inputValue={signUpDetails.password}
+                    inputType='password'
+                    id='password'
+                    onChangeEventHandler={updatePassword}
+                    divClass={style.remove_margin}/>
+                <FormFieldComponent
+                    label="Firstname"
+                    placeholder="John"
+                    inputValue={signUpDetails.firstname}
+                    inputType='text'
+                    id='firstName'
+                    onChangeEventHandler={updateFirstName}
+                    divClass={style.remove_margin}/>
+                <FormFieldComponent
+                    label="Lastname"
+                    placeholder="Wick"
+                    inputValue={signUpDetails.lastname}
+                    inputType='text'
+                    id='lastName'
+                    onChangeEventHandler={updateLastName}
+                    divClass={style.remove_margin}/>
+                <FormFieldComponent
+                    label="Email"
+                    placeholder="John_Wick@email.com"
+                    inputValue={signUpDetails.email}
+                    inputType='email'
+                    id='email'
+                    onChangeEventHandler={updateEmail}
+                    divClass={style.remove_margin}/>
+                <div className={`form-group row ${style.remove_margin}`}>
+                    {isSignUpEnabled && <button className={`btn btn-success col-sm ${style.margin_btn}`}
+                                                onClick={(event) => signUp(event)}>Sign Up</button>}
+                    {!isSignUpEnabled &&
+                    <button className={`btn btn-success col-sm ${style.margin_btn}`} onClick={(event) => signUp(event)}
+                            disabled>Sign Up</button>}
+                    <button className={`btn btn-danger col-sm ${style.margin_btn}`}
+                            onClick={(event) => cancel(event)}>Cancel
+                    </button>
+                    {isClearEnabled && <button className={`btn btn-outline-secondary col-sm ${style.margin_btn}`}
+                                               onClick={(event) => clearAll(event)}>Clear</button>}
+                    {!isClearEnabled && <button className={`btn btn-outline-secondary col-sm ${style.margin_btn}`}
+                                                onClick={(event) => clearAll(event)} disabled>Clear</button>}
+                </div>
             </div>
         </div>
     )
@@ -245,7 +252,7 @@ const SignUpComponent = ({ addUserDispatchAction }) => {
 
 const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch) => ({
-    addUserDispatchAction : (user) => addUserAction(dispatch, user),
+    addUserDispatchAction: (user) => addUserAction(dispatch, user),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpComponent);

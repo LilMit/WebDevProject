@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { RecipeService } from "../../services/RecipeService";
+import React, {useState} from 'react';
+import {useHistory, useParams} from 'react-router-dom';
 
 const CreateRecipeComponent = () => {
 
@@ -74,7 +73,7 @@ const CreateRecipeComponent = () => {
     const changeServings = (event) => {
         event.preventDefault();
         console.log('Hey2');
-        if(!isNaN(event.target.value)) {
+        if (!isNaN(event.target.value)) {
             setRecipe({
                 ...recipe,
                 servings: parseInt(event.target.value) || '',
@@ -95,7 +94,7 @@ const CreateRecipeComponent = () => {
         event.preventDefault();
         console.log('Hey1');
         console.log(isNaN(event.target.value));
-        if(!isNaN(event.target.value)) {
+        if (!isNaN(event.target.value)) {
             setRecipe({
                 ...recipe,
                 totalTime: parseInt(event.target.value) || '',
@@ -119,13 +118,13 @@ const CreateRecipeComponent = () => {
                     <span>Image title</span>
                 </div>
                 <div className="col-sm-10">
-                    <input 
-                        type="text" 
-                        className="form-control" 
-                        id="title" 
-                        placeholder="Enter Recipe Title" 
-                        value={recipe.title} 
-                        onChange={(event) => changeTitle(event)} />
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="title"
+                        placeholder="Enter Recipe Title"
+                        value={recipe.title}
+                        onChange={(event) => changeTitle(event)}/>
                 </div>
             </div>
             <div className="form-group row">
@@ -133,13 +132,13 @@ const CreateRecipeComponent = () => {
                     <span>Image Url</span>
                 </div>
                 <div className="col-sm-10">
-                    <input 
-                        type="text" 
-                        className="form-control" 
-                        id="url" 
-                        placeholder="http://www.example.com" 
-                        value={recipe.url} 
-                        onChange={(event) => changeImageUrl(event)} />
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="url"
+                        placeholder="http://www.example.com"
+                        value={recipe.url}
+                        onChange={(event) => changeImageUrl(event)}/>
                 </div>
             </div>
             <div className="form-group row">
@@ -147,13 +146,13 @@ const CreateRecipeComponent = () => {
                     <span>Ingredients</span>
                 </div>
                 <div className="col-sm-10">
-                    <textarea 
-                        className="form-control" 
-                        id="ingredients" 
-                        placeholder="Ingredient name : quantity" 
-                        rows="3" 
-                        value={recipe.ingredients} 
-                        onChange={(event) => changeIngredients(event)} />
+                    <textarea
+                        className="form-control"
+                        id="ingredients"
+                        placeholder="Ingredient name : quantity"
+                        rows="3"
+                        value={recipe.ingredients}
+                        onChange={(event) => changeIngredients(event)}/>
                 </div>
             </div>
             <div className="form-group row">
@@ -161,12 +160,12 @@ const CreateRecipeComponent = () => {
                     <span>Instructions</span>
                 </div>
                 <div className="col-sm-10">
-                    <textarea 
-                        className="form-control" 
-                        id="Instructions" 
-                        placeholder="Steps seperated by newline." 
-                        rows="3" 
-                        value={recipe.instructions} 
+                    <textarea
+                        className="form-control"
+                        id="Instructions"
+                        placeholder="Steps seperated by newline."
+                        rows="3"
+                        value={recipe.instructions}
                         onChange={(event) => changeInstructions(event)}/>
                 </div>
             </div>
@@ -175,12 +174,12 @@ const CreateRecipeComponent = () => {
                     <span>Servings</span>
                 </div>
                 <div className="col-sm-10">
-                    <input 
-                        type="text" 
-                        className={`form-control ${recipe.isServingIntDiv}`} 
-                        id="servings" 
-                        placeholder="Number of Servings" 
-                        value={recipe.servings} 
+                    <input
+                        type="text"
+                        className={`form-control ${recipe.isServingIntDiv}`}
+                        id="servings"
+                        placeholder="Number of Servings"
+                        value={recipe.servings}
                         onChange={(event) => changeServings(event)}/>
                     <div className={`invalid-feedback ${recipe.isServingInt}`}>
                         Serving should always be a number.
@@ -192,12 +191,12 @@ const CreateRecipeComponent = () => {
                     <span>TotalTime</span>
                 </div>
                 <div className="col-sm-10">
-                    <input 
-                        type="text" 
-                        className={`form-control ${recipe.isTotalTimeDiv}`} 
-                        id="totalTime" 
-                        placeholder="Time in minutes." 
-                        value={recipe.totalTime} 
+                    <input
+                        type="text"
+                        className={`form-control ${recipe.isTotalTimeDiv}`}
+                        id="totalTime"
+                        placeholder="Time in minutes."
+                        value={recipe.totalTime}
                         onChange={(event) => changeTotalTime(event)}/>
                     <div className={`invalid-feedback ${recipe.isTotalTime}`}>
                         Total time should always be a number.
@@ -206,7 +205,8 @@ const CreateRecipeComponent = () => {
             </div>
             <div className="row form-group">
                 <button type="submit" className="btn btn-success col-sm m-1">Create</button>
-                <button type="submit" className="btn btn-danger col-sm m-1" onClick={(event) => cancel(event)}>Cancel</button>
+                <button type="submit" className="btn btn-danger col-sm m-1" onClick={(event) => cancel(event)}>Cancel
+                </button>
             </div>
         </div>
     );

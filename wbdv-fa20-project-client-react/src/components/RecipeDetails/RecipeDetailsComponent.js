@@ -1,9 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import IngredientsComponent from "./IngredientsComponent";
 
-
-const RecipeContent = ({recipe}) => {
+const RecipeDetailsComponent = ({recipe}) => {
 
     const getFormattedDate = (date) => {
         const todayTime = new Date(date);
@@ -32,8 +30,10 @@ const RecipeContent = ({recipe}) => {
             </div>
             <div className="row">
                 {console.log(recipe)}
-                    <IngredientsComponent {...recipe}/>
-                <div className = "col">
+                // TODO: IngredientsComponent uses `ingredient` attribute which is not present. Need to figure out which
+                attribute to use for this.
+                {/*<IngredientsComponent recipe={recipe}/>*/}
+                <div className="col">
                     <h3>Instructions</h3>
                     <p>{recipe.instructions}</p>
                 </div>
@@ -47,4 +47,4 @@ const RecipeContent = ({recipe}) => {
 const mapStateToProps = (state) => ({
     recipe: state.recipeReducer.recipe
 })
-export default connect(mapStateToProps) (RecipeContent);
+export default connect(mapStateToProps)(RecipeDetailsComponent);
