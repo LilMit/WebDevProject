@@ -56,7 +56,7 @@ class CustomRoutes extends React.Component {
             <Route path="/recipe/:recipeId" component = {RecipeDetails} exact />
             <Route path="/ownedRecipes/:userId/create" component = {CreateRecipeComponent} exact />
             <Route path="/">
-              <Redirect to="/login" />
+              <Redirect to="/home" />
             </Route>
           </Switch>
         </Router>

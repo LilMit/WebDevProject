@@ -6,21 +6,24 @@ import style from './ProfileComponent.module.css';
 import { useHistory, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addUserAction } from '../../actions/userAction';
-import { data } from 'jquery';
+
+let intialState;
 
 const Profile = ({ addUserDispatchAction , loggedInUser}) => {
 
-    let intialState = {
-        ...loggedInUser,
-        isUsernameUpdated: false,
-        isPasswordUpdated: false,
-        isEmailUpdated: false,
-        isFirstnameUpdated: false,
-        isLastnameUpdated: false,
-        isRoleChanged: false,
-        alert: 'd-none',
-        alertMessage: 'Something Went wrong.',
-    };
+    if(!intialState) {
+        intialState = {
+            ...loggedInUser,
+            isUsernameUpdated: false,
+            isPasswordUpdated: false,
+            isEmailUpdated: false,
+            isFirstnameUpdated: false,
+            isLastnameUpdated: false,
+            isRoleChanged: false,
+            alert: 'd-none',
+            alertMessage: 'Something Went wrong.',
+        };
+    }
 
     const history = useHistory();
     const params = useParams();
@@ -94,8 +97,16 @@ const Profile = ({ addUserDispatchAction , loggedInUser}) => {
                     UserService.updateUserRole(loggedInUser._id, user._id, profileDetails.type)
                     .then((updatedRole) => {
                         if(updatedRole && !updatedRole.error) {
-                            addUserDispatchAction(updatedRole);
+                            if(updatedRole._id !== loggedInUser._id) {
+                                setProfileDetails({
+                                    ...intialState,
+                                    ...updatedRole,
+                                });
+                            } else {
+                                addUserDispatchAction(updatedRole);
+                            }
                         } else {
+                            debugger
                             setProfileDetails({
                                 ...intialState,
                                 alert: 'd-block',
@@ -103,7 +114,14 @@ const Profile = ({ addUserDispatchAction , loggedInUser}) => {
                         }
                     });
                 } else {
-                    addUserDispatchAction(data);
+                    if(data._id !== loggedInUser._id) {
+                        setProfileDetails({
+                            ...intialState,
+                            ...data,
+                        });
+                    } else {
+                        addUserDispatchAction(data);
+                    }
                 }
             } else {
                 setProfileDetails({
