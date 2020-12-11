@@ -1,5 +1,6 @@
 import {FIND_RANDOM_RECIPES, GET_DETAILS, SEARCH_RECIPES, UPDATE_QUERY} from "../actions/recipeAction";
 
+
 const date = new Date().toDateString();
 const initialState = {
     recipes: [],
@@ -25,7 +26,7 @@ export const recipeReducer = (state = initialState, action) => {
                 ...state,
                 recipes: action.recipes
             }
-        case GET_DETAILS:
+        case GET_RECIPE_DETAILS:
             return {
                 ...state,
                 recipe: action.recipe
