@@ -7,7 +7,6 @@ const apiKey = "fd8eb1342ad14b99aa1933816c38d9fe"
 const baseUrl = "https://api.spoonacular.com/recipes";
 const recipeDetailsSecondHalf = "information?includeNutrition=false&apiKey=fd8eb1342ad14b99aa1933816c38d9fe"
 
-
 export const findRandomRecipes = () =>
     fetch(`${baseUrl}/random?number=16&apiKey=${apiKey}`)
         .then(response => response.json())

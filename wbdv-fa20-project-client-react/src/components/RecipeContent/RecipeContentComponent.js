@@ -22,7 +22,9 @@ const RecipeContent = ({recipe}) => {
                     <img className="card-img-top" src={recipe.image} alt="Recipe Image"/>
                 </div>
                 <div className="col">
-                    <button className="btn btn-info">Save Recipe</button>
+                    <button className="btn btn-info m-1">Save Recipe</button>
+                    <button className="btn btn-info m-1">UnSave Recipe</button>
+                    <button className="btn btn-danger m-1">Delete Recipe</button>
                     <ul className="list-group">
                         <li className="list-group-item">Time to prepare: {recipe.readyInMinutes} minutes </li>
                         <li className="list-group-item">Serves: {recipe.servings}</li>
