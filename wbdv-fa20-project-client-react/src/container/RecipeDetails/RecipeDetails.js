@@ -1,22 +1,17 @@
 import React from 'react';
 import HomeNavigation from '../../components/HomeNavigation/HomeNavigation';
 import NavigationComponent from '../../components/Navigation/NavigationComponent';
-import RecipeGridComponent from '../../components/RecipeGridLayout/RecipeGridComponent';
 import {connect} from 'react-redux';
-import {findRandomRecipes} from "../../actions/recipeAction";
-import {getRecipeDetails} from "../../services/RecipeService";
+import {getRecipeDetails} from "../../actions/recipeAction";
 import RecipeContent from "../../components/RecipeContent/RecipeContentComponent";
-import {getDetails} from "../../actions/recipeAction";
 
-class RecipeDetails
-extends
-React.Component {
+class RecipeDetails extends React.Component {
     constructor(props) {
         super(props);
     }
 
     componentDidMount() {
-        const recipeId = this.props.match.params.recipeId
+        const recipeId = this.props.match.params.recipeId;
         this.props.getRecipeDetails(recipeId);
     }
 
@@ -37,15 +32,14 @@ React.Component {
     }
 
 }
-    const mapStateToProps = (state) => ({
-        recipe: state.recipeReducer.recipe,
-    });
 
-    const mapPropsToDispatch = (dispatch) =>
-        ({
-            getRecipeDetails: (recipeId) => getDetails(dispatch, recipeId)
-        })
+const mapStateToProps = (state) => ({
+    recipe: state.recipeReducer.recipe,
+});
 
-export default
-    connect(mapStateToProps, mapPropsToDispatch)(RecipeDetails);
+const mapPropsToDispatch = (dispatch) => ({
+    getRecipeDetails: (recipeId) => getRecipeDetails(dispatch, recipeId)
+})
+
+export default connect(mapStateToProps, mapPropsToDispatch)(RecipeDetails);
 

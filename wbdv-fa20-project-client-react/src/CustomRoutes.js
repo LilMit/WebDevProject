@@ -1,20 +1,15 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
-import { combineReducers, createStore } from 'redux';
+import {Provider} from 'react-redux';
+import {BrowserRouter as Router, Redirect, Route, Switch,} from "react-router-dom";
+import {combineReducers, createStore} from 'redux';
 import LoginComponent from './components/Login/LoginComponent';
 import NavigationComponent from './components/Navigation/NavigationComponent';
 import SignUpComponent from './components/Signup/SignUpComponent';
 import Home from './container/Home/HomeContainer';
 import './CustomRoutes.css';
-import { reducer } from './reducers/initialState';
-import { userReducer } from './reducers/userReducer';
-import { recipeReducer } from './reducers/recipeReducer';
+import {reducer} from './reducers/initialState';
+import {userReducer} from './reducers/userReducer';
+import {recipeReducer} from './reducers/recipeReducer';
 import AllUsers from './container/Users/AllUsers';
 import ProfileComponent from './components/Profile/ProfileComponent';
 import OwnedRecipesContainer from './container/OwnedRecipes/OwnedRecipesContainer';
@@ -27,17 +22,16 @@ import CreateRecipeComponent from './components/CreateRecipe/CreateRecipeCompone
 
 
 const reducers = combineReducers({
-  reducer,
-  recipeReducer,
-  userReducer,
+    reducer,
+    recipeReducer,
+    userReducer,
 });
 
-const store = createStore(reducers , window.__REDUX_DEVTOOLS_EXTENSION__ 
-  && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__
+    && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 class CustomRoutes extends React.Component {
-  
-  
+
   render () {
     return (
       <Provider store={store}>
@@ -65,6 +59,7 @@ class CustomRoutes extends React.Component {
       </Provider>
     );
   }
+
 }
 
 export default CustomRoutes;

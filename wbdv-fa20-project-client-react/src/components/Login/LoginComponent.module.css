@@ -6,9 +6,9 @@
 .custom_login_container {
     max-width: 900px;
     background-color: #fff;
-    box-shadow: 0 8px 20px 0 rgba(0,0,0,.08);
-    margin:-15px auto;
-    padding-bottom:10px;
+    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, .08);
+    margin: -15px auto;
+    padding-bottom: 10px;
 }
 
 .margin_btn {
