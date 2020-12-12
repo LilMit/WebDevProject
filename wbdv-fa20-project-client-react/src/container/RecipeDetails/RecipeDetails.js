@@ -3,7 +3,7 @@ import HomeNavigation from '../../components/HomeNavigation/HomeNavigation';
 import NavigationComponent from '../../components/Navigation/NavigationComponent';
 import {connect} from 'react-redux';
 import {getRecipeDetails} from "../../actions/recipeAction";
-import RecipeContent from "../../components/RecipeDetails/RecipeDetailsComponent";
+import RecipeContent from "../../components/RecipeContent/RecipeContentComponent";
 
 class RecipeDetails extends React.Component {
     constructor(props) {

@@ -16,6 +16,7 @@ import OwnedRecipesContainer from './container/OwnedRecipes/OwnedRecipesContaine
 import SavedRecipesContainer from './container/SavedRecipes/SavedRecipesContainer';
 
 import RecipeDetails from "./container/RecipeDetails/RecipeDetails";
+import SearchResultsPage from "./container/SearchResults/SearchResultsContainer";
 
 import CreateRecipeComponent from './components/CreateRecipe/CreateRecipeComponent';
 
@@ -31,31 +32,34 @@ const store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__
 
 class CustomRoutes extends React.Component {
 
-    render() {
-        return (
-            <Provider store={store}>
-                <Router>
-                    <Switch>
-                        <Route path="/login" component={LoginComponent} exact/>
-                        <Route path="/signUp" component={SignUpComponent} exact/>
-                        <Route path="/profile/:userId" exact>
-                            <NavigationComponent/>
-                            <ProfileComponent/>
-                        </Route>
-                        <Route path="/home" component={Home} exact/>
-                        <Route path="/users" component={AllUsers} exact/>
-                        <Route path="/savedRecipes/:userId" component={SavedRecipesContainer} exact/>
-                        <Route path="/ownedRecipes/:userId" component={OwnedRecipesContainer} exact/>
-                        <Route path="/recipe/:recipeId" component={RecipeDetails} exact/>
-                        <Route path="/ownedRecipes/:userId/create" component={CreateRecipeComponent} exact/>
-                        <Route path="/">
-                            <Redirect to="/home"/>
-                        </Route>
-                    </Switch>
-                </Router>
-            </Provider>
-        );
-    }
+  render () {
+    return (
+      <Provider store={store}>
+        <Router>
+          <Switch>
+            <Route path="/login"  component = {LoginComponent} exact />
+            <Route path="/signup" component = {SignUpComponent} exact />
+            <Route path="/profile/:userId" exact>
+              <NavigationComponent />
+              <ProfileComponent />
+            </Route>
+            <Route path="/home" component = {Home} exact />
+            <Route path="/search/:query" exact component={SearchResultsPage}/>
+            <Route path="/users" component = { AllUsers } exact />
+            <Route path="/savedRecipes/:userId" component = {SavedRecipesContainer} exact />
+            <Route path="/ownedRecipes/:userId" component = {OwnedRecipesContainer} exact />
+
+            <Route path="/recipe/:recipeId" component = {RecipeDetails} exact />
+            <Route path="/ownedRecipes/:userId/create" component = {CreateRecipeComponent} exact />
+            <Route path="/">
+              <Redirect to="/home" />
+            </Route>
+          </Switch>
+        </Router>
+      </Provider>
+    );
+  }
+
 }
 
 export default CustomRoutes;

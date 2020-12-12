@@ -2,9 +2,14 @@ import React from 'react';
 import HomeNavigation from '../../components/HomeNavigation/HomeNavigation';
 import NavigationComponent from '../../components/Navigation/NavigationComponent';
 import RecipeGridComponent from '../../components/RecipeGridLayout/RecipeGridComponent';
+
+
 import {connect} from 'react-redux';
 import {findRandomRecipes} from "../../actions/recipeAction";
 
+
+// TODO: must be dynamic based on most recent info - eg show a row of recently reviewed or created recipes?
+// TODO: must be dynamic basd on logged in user - eg show a row of user's recently saved recipes?
 class Home extends React.Component {
     constructor(props) {
         super(props);
@@ -15,7 +20,6 @@ class Home extends React.Component {
     }
 
     componentDidUpdate() {
-
     }
 
     render() {
@@ -35,8 +39,10 @@ const mapStateToProps = (state) => ({
     recipes: state.recipeReducer.recipes,
 });
 
-const mapPropsToDispatch = (dispatch) => ({
-    findRandomRecipes: () => findRandomRecipes(dispatch)
-})
+const mapPropsToDispatch = (dispatch) =>
+    ({
+        findRandomRecipes: ()=> findRandomRecipes(dispatch)
+    })
+
 
 export default connect(mapStateToProps, mapPropsToDispatch)(Home);
