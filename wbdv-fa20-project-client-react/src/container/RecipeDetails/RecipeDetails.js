@@ -12,6 +12,7 @@ class RecipeDetails extends React.Component {
 
     componentDidMount() {
         const recipeId = this.props.match.params.recipeId;
+        console.log(this.props);
         this.props.getRecipeDetails(recipeId);
     }
 

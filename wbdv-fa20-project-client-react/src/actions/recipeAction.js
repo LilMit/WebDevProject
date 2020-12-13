@@ -1,7 +1,8 @@
-
 import RecipeService from "../services/RecipeService";
-import {Redirect} from "react-router-dom";
 
+export const ADD_RECENT_RECIPES = "ADD_RECENT_RECIPES";
+export const ADD_SAVED_RECIPES = "ADD_SAVED_RECIPES";
+export const DELETE_SAVED_RECIPES = "DELETE_SAVED_RECIPES";
 export const CREATE_RECIPE = "CREATE_RECIPE";
 export const DELETE_RECIPE = "DELETE_RECIPE";
 export const SEARCH_RECIPES = "SEARCH_RECIPES";
@@ -16,7 +17,9 @@ export const findRandomRecipes = (dispatch) => {
     RecipeService.findRandomRecipes()
         .then(actualRecipes => {
             dispatch({type: FIND_RANDOM_RECIPES, recipes: actualRecipes.recipes})
-        })
+        }).catch((data) => {
+            console.log(data);
+        });
 }
 
 export const updateQuery = (dispatch, query) => {
@@ -24,21 +27,65 @@ export const updateQuery = (dispatch, query) => {
 }
 
 export const searchRecipes = (dispatch, query) => {
-
     RecipeService.searchRecipes(query).then(actualRecipes => dispatch({
         type: SEARCH_RECIPES,
         recipes: actualRecipes.results
-    }))
-
+    })).catch((data) => {
+        console.log(data);
+    });
 }
 
 export const getRecipeDetails = (dispatch, recipeId) => {
-    RecipeService.getRecipeDetails(recipeId)
+    RecipeService.getLocalRecipeDetails(recipeId)
         .then(actualRecipe => {
             console.log("actualRecipe", actualRecipe);
             dispatch({
                 type: GET_RECIPE_DETAILS,
                 recipe: actualRecipe
             })
-        })
+        }).catch((data) => {
+            console.log(data);
+        });
+}
+
+export const addRecipeAction = (dispatch, recipe) => {
+    dispatch({
+        type: GET_RECIPE_DETAILS,
+        recipe: recipe
+    });
+}
+
+export const findOwnedRecipes = (dispatch, ownedRecipes) => {
+    dispatch({
+        type: FIND_OWNED_RECIPES,
+        ownedRecipes
+    });
+}
+
+export const findSavedRecipes = (dispatch, savedRecipes) => {
+    dispatch({
+        type: FIND_SAVED_RECIPES,
+        savedRecipes
+    });
+}
+
+export const addSavedRecipe = (dispatch, savedRecipe) => {
+    dispatch({
+        type: ADD_SAVED_RECIPES,
+        savedRecipe
+    });
+}
+
+export const deleteSavedRecipe = (dispatch, recipeId) => {
+    dispatch({
+        type: DELETE_SAVED_RECIPES,
+        recipeId
+    });
+}
+
+export const findRecentRecipes = (dispatch, recipes) => {
+    dispatch({
+        type: ADD_RECENT_RECIPES,
+        recipes
+    });
 }

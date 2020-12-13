@@ -72,15 +72,14 @@ export const getUserById = (id) => {
     return fetch(`${localUsersURL}/${id}`, init).then(response => response.json());
 }
 
-const getAllUsers = (requestUser_id) => {
+const getAllUsers = () => {
     const init = {
         method: 'GET',
         headers: {
             'content-type': 'application/json',
         },
     };
-    console.log(requestUser_id);
-    return fetch(`${localUsersURL}/all/${requestUser_id}`, init).then(response => response.json());
+    return fetch(`${localUsersURL}`, init).then(response => response.json());
 }
 
 const deleteUser = (userToDelete) => {
