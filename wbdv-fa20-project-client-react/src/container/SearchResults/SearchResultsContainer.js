@@ -14,12 +14,14 @@ class SearchResultsPage extends React.Component {
         const query = this.props.match.params.query;
         // const query = this.props.match.params.query.split('?query=').pop();
         // TODO: this isnt waiting for response before render
-        this.props.searchRecipes(query)
+        this.props.searchRecipes(query);
     }
 
     // TODO doesn't update when search updates, but putting it in componentDidUpdate causes infinite loop (RIP api calls)
     componentDidUpdate() {
-
+        if(this.props.query !== this.props.match.params.query) {
+            this.props.searchRecipes(query);
+        }
     }
 
     render() {
@@ -37,6 +39,7 @@ class SearchResultsPage extends React.Component {
 
 const mapStateToProps = (state) => ({
     recipes: state.recipeReducer.recipes,
+    query: state.recipeReducer.query
 });
 
 const mapPropsToDispatch = (dispatch) =>
