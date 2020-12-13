@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux'
+import { useHistory } from 'react-router-dom';
 import { addSavedRecipe, deleteSavedRecipe } from '../../actions/recipeAction';
 import RecipeService from '../../services/RecipeService';
 import UserSavedRecipeService from '../../services/UserSavedRecipeService';
@@ -59,7 +60,7 @@ const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, ad
                 </div>
                 <div className="col">
                     { 
-                        isSavedRecipe ? 
+                        !isSavedRecipe ? 
                         <button className="btn btn-info m-1" onClick={(event) => saveRecipe(event)}>Save Recipe</button> :
                         <button className="btn btn-warning m-1" onClick={(event) => deleteSavedRecipe(event)}>Unsave Recipe</button>
                     }
@@ -77,7 +78,7 @@ const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, ad
                 </div>
             </div>
             <div className="row">
-                    <IngredientsComponent {...recipe}/>
+                    {/* <IngredientsComponent {...recipe}/> */}
                     {/*<InstructionsComponent {...recipe}/>*/}
                 <div className = "col">
                     <h3>Instructions</h3>
@@ -103,7 +104,10 @@ const mapStateToProps = (state) => {
         }
     });
 
-    const isOwner = recipe.userId._id === state.userReducer._id;
+    let isOwner = false; 
+    if(recipe.userId) {
+        isOwner = recipe.userId._id === state.userReducer._id;
+    }
 
     return {
         recipe: recipe,

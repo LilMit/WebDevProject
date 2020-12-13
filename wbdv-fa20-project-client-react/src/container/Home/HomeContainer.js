@@ -4,7 +4,7 @@ import NavigationComponent from '../../components/Navigation/NavigationComponent
 import RecipeGridComponent from '../../components/RecipeGridLayout/RecipeGridComponent';
 
 import { connect } from 'react-redux';
-import {findRandomRecipes, searchRecipes} from "../../actions/recipeAction";
+import {findRandomRecipes, findRecentRecipes} from "../../actions/recipeAction";
 import RecipeService from '../../services/RecipeService';
 
 
@@ -17,25 +17,29 @@ class Home extends React.Component {
 
     componentDidMount() {
         this.props.findRandomRecipes();
-        RecipeService.fetchRecentRecipes(this.props.userId).then((data) => {
-            if(data && !data.error) {
-                this.props.fetchRecentRecipes(data);
-            }
-        }).catch((data) => {
-            console.log(data);
-        });
+        if(this.props.userId) {
+            RecipeService.fetchRecentRecipes(this.props.userId).then((data) => {
+                if(data && !data.error) {
+                    this.props.fetchRecentRecipes(data);
+                }
+            }).catch((data) => {
+                console.log(data);
+            });
+        }
     }
 
     componentDidUpdate() {
-        RecipeService.fetchRecentRecipes(this.props.userId).then((data) => {
-            if(data && !data.error) {
-                if(this.props.recentRecipes.length !== data.length) {
-                    this.props.fetchRecentRecipes(data);
+        if(this.props.userId) {
+            RecipeService.fetchRecentRecipes(this.props.userId).then((data) => {
+                if(data && !data.error) {
+                    if(this.props.recentRecipes.length !== data.length) {
+                        this.props.fetchRecentRecipes(data);
+                    }
                 }
-            }
-        }).catch((data) => {
-            console.log(data);
-        });
+            }).catch((data) => {
+                console.log(data);
+            });
+        }
     }
 
     render() {
@@ -44,10 +48,13 @@ class Home extends React.Component {
                 <NavigationComponent/>
                 <div>
                     <HomeNavigation/>
-                    {this.props.userId && <div className="container m-1">
-                        <h3> Recently interacted Recipes</h3>
-                        <RecipeGridComponent recipes={this.props.recentRecipes}/>
-                    </div>}
+                    {
+                    this.props.userId && this.props.recentRecipes && this.props.recentRecipes.length !== 0  &&
+                        <div className="container m-1 b-1">
+                            <h3> Recently interacted Recipes</h3>
+                            <RecipeGridComponent recipes={this.props.recentRecipes}/>
+                        </div>
+                    }
                     <RecipeGridComponent recipes={this.props.recipes}/>
                 </div>
             </>
@@ -64,7 +71,7 @@ const mapStateToProps = (state) => ({
 const mapPropsToDispatch = (dispatch) =>
     ({
         findRandomRecipes: ()=> findRandomRecipes(dispatch),
-        findRecentRecipes: (recipe) => findRecentRecipes(dispatch)
+        findRecentRecipes: (recipe) => findRecentRecipes(dispatch, recipe)
     })
 
 

@@ -1,5 +1,6 @@
 import RecipeService from "../services/RecipeService";
 
+export const ADD_RECENT_RECIPES = "ADD_RECENT_RECIPES";
 export const ADD_SAVED_RECIPES = "ADD_SAVED_RECIPES";
 export const DELETE_SAVED_RECIPES = "DELETE_SAVED_RECIPES";
 export const CREATE_RECIPE = "CREATE_RECIPE";
@@ -35,7 +36,7 @@ export const searchRecipes = (dispatch, query) => {
 }
 
 export const getRecipeDetails = (dispatch, recipeId) => {
-    RecipeService.getRecipeDetails(recipeId)
+    RecipeService.getLocalRecipeDetails(recipeId)
         .then(actualRecipe => {
             console.log("actualRecipe", actualRecipe);
             dispatch({
@@ -79,5 +80,12 @@ export const deleteSavedRecipe = (dispatch, recipeId) => {
     dispatch({
         type: DELETE_SAVED_RECIPES,
         recipeId
+    });
+}
+
+export const findRecentRecipes = (dispatch, recipes) => {
+    dispatch({
+        type: ADD_RECENT_RECIPES,
+        recipes
     });
 }

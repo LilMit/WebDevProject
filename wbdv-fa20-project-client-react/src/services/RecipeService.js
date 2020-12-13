@@ -1,6 +1,6 @@
 const localRecipesURL = 'http://localhost:4000/api/recipes';
 const localRecipesCreateURL = 'http://localhost:4000/api/users';
-const localRecentRecipes = 'http://localhost:4000/api/recentRecipes/user/';
+const localRecentRecipes = 'http://localhost:4000/api/recentRecipes/users';
 
 const searchRecipesUrl = "https://api.spoonacular.com/recipes/complexSearch"
 //const generateRecipeCardUrl = "https://api.spoonacular.com/recipes/visualizeRecipe"
@@ -51,7 +51,6 @@ export const deleteRecipe = (recipeId) => {
         headers: {
             'content-type': 'application/json',
         },
-        body: JSON.stringify(recipe)
     };
     return fetch(`${localRecipesCreateURL}/recipes/${recipeId}`, init).then(response => response.json());
 }

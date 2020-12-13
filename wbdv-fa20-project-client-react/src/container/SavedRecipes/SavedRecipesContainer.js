@@ -4,6 +4,7 @@ import NavigationComponent from '../../components/Navigation/NavigationComponent
 import RecipeGridComponent from '../../components/RecipeGridLayout/RecipeGridComponent';
 import {connect} from 'react-redux';
 import UserSavedRecipeService from '../../services/UserSavedRecipeService';
+import { findSavedRecipes } from '../../actions/recipeAction';
 
 class SavedRecipes extends React.Component {
     constructor(props) {
@@ -14,7 +15,6 @@ class SavedRecipes extends React.Component {
         if(!this.props.userId) {
             this.props.history.push('/home');
         }
-        RecipeService
         UserSavedRecipeService.getAllSavedRecipes(this.props.userId).then((data) => {
             if(data && !data.error) {
                 this.props.findAllSavedRecipesDispatch(data);
@@ -51,6 +51,7 @@ class SavedRecipes extends React.Component {
 
 const mapStateToProps = (state) => ({
     savedRecipes: state.recipeReducer.savedRecipes,
+    userId: state.userReducer._id,
 });
 
 const mapDispatchToProps = (dispatch) => ({

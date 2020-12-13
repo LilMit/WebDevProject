@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 
 const IMAGEURL = "https://spoonacular.com/recipeImages/"
 
-const RecipeCardComponent = ({id, title, image, imageUrl}) => {
+const RecipeCardComponent = ({id = "", title, image, imageUrl}) => {
 
     const reduceTitle = (title) => {
         if (title.length > 15) {

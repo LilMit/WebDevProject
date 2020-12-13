@@ -22,7 +22,7 @@ const deleteSavedRecipe = (userId, recipeId) => {
 }
 
 const getAllSavedRecipes = (userId) => {
-    return fetch(`${localSavedRecipesURL}/users/${userId}`, init).then(response => response.json());
+    return fetch(`${localSavedRecipesURL}/users/${userId}`).then(response => response.json());
 }
 
 export default {
