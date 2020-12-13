@@ -44,7 +44,7 @@ export const updateRecipe = (recipeId, recipe) => {
     return fetch(`${localRecipesCreateURL}/recipes/${recipeId}`, init).then(response => response.json());
 }
 
-export const getRecipeDetails = (recipeId) => {
+export const getLocalRecipeDetails = (recipeId) => {
     return fetch(`${localRecipesURL}/${recipeId}`)
         .then(response => response.json())
 }
@@ -60,7 +60,8 @@ export default {
     findRandomRecipes,
     addRecipeDetails,
     updateRecipe,
-    getAllOwnedRecipes
+    getAllOwnedRecipes,
+    getLocalRecipeDetails
 }
 
 

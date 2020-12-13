@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import RecipeService from '../../services/RecipeService';
+import { addRecipeAction } from '../../actions/recipeAction';
 import {useHistory, useParams} from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const EditRecipeComponent = (userId, originalRecipe) => {
+const EditRecipeComponent = (userId, originalRecipe, addRecipeDisptachAction) => {
 
     const initialState = {
         title: '',
@@ -19,11 +20,31 @@ const EditRecipeComponent = (userId, originalRecipe) => {
         ...originalRecipe,
     };
 
+    const history = useHistory();
+    const params = useParams();
+
+    useEffect(() => {
+        if(originalRecipe.userId._id !== userId) {
+            history.push(`/recipes/${originalRecipe._id}`);
+        } else if(originalRecipe._id !== params.recipeId) {
+            RecipeService.getLocalRecipeDetails(params.recipeId).then((data) => {
+                if(data && !data.error) {
+                    addRecipeDisptachAction(data);
+                } else {
+                    history.push(`/recipes/${originalRecipe._id}`);
+                }
+            }).catch((data) => {
+                history.push(`/recipes/${originalRecipe._id}`);
+            })
+        }
+    })
+
     const [recipe, setRecipe] = useState(initialState);
 
     const updateRecipe = (event) => {
         event.preventDefault();
         const finalRecipe = {
+            _id: recipe._id,
             title: recipe.title,
             ingredients: recipe.ingredients,
             instructions: recipe.instructions,
@@ -31,11 +52,8 @@ const EditRecipeComponent = (userId, originalRecipe) => {
             readyInMinutes: recipe.readyInMinutes,
             imageUrl: recipe.imageUrl,
         };
-        RecipeService.updateRecipe(userId, finalRecipe);
+        RecipeService.updateRecipe(finalRecipe._id, finalRecipe);
     }
-
-    const history = useHistory();
-    const params = useParams();
 
     const cancel = (event) => {
         event.preventDefault();
@@ -228,5 +246,9 @@ const mapStateToProps = (state) => ({
     originalRecipe: state.recipeReducer.recipe,
 });
 
-export default connect(mapStateToProps)(EditRecipeComponent);
+const mapDispatchToProps = (dispatch) => ({
+    addRecipeDisptachAction: (recipeId) => addRecipeAction(dispatch, recipeId),
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(EditRecipeComponent);
 
