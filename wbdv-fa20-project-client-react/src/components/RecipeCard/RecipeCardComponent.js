@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 const RecipeCardComponent = (recipe) => {
 
     const reduceTitle = (title) => {
-        if (title.length > 15) {
+        if (title && title.length > 15) {
             return `${title.substring(0, 13)}..`;
         }
         return title;

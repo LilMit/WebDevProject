@@ -1,6 +1,6 @@
-const localRecipesURL = 'http://localhost:4000/api/recipes';
-const localRecipesCreateURL = 'http://localhost:4000/api/users';
-const localRecentRecipes = 'http://localhost:4000/api/recentRecipes/users';
+const localRecipesURL = 'https://tranquil-waters-97142.herokuapp.com/api/recipes';
+const localRecipesCreateURL = 'https://tranquil-waters-97142.herokuapp.com/api/users';
+const localRecentRecipes = 'https://tranquil-waters-97142.herokuapp.com/api/recentRecipes/users';
 
 const searchRecipesUrl = "https://api.spoonacular.com/recipes/complexSearch"
 //const generateRecipeCardUrl = "https://api.spoonacular.com/recipes/visualizeRecipe"
