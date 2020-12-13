@@ -6,15 +6,14 @@ const initialState = {
     recipes: [],
     // TODO add created/updated date/timestamps
     recipe: {
-        readyInMinutes: 0, image: "", title: "", servings: 0, sourceUrl: "", ingredients: [], instructions: "",
-        extendedIngredients: [], user_id: -1, analyzedInstructions: [{steps: [{number: "", step: ""}]}]
+        readyInMinutes: 0, image: "", title: "", servings: 0, sourceUrl: "", ingredients: "", instructions: "",
+        user_id: -1
     },
-    extendedIngredient: {originalString: ""},
-    // steps: {number: "", step: ""},
     query: "",
     ownedRecipes: [],
     savedRecipes: [],
     recentRecipes: [],
+
 }
 
 export const recipeReducer = (state = initialState, action) => {
