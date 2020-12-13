@@ -1,4 +1,4 @@
-import {FIND_RANDOM_RECIPES, GET_RECIPE_DETAILS, SEARCH_RECIPES, UPDATE_QUERY, FIND_OWNED_RECIPES} from "../actions/recipeAction";
+import {FIND_RANDOM_RECIPES, GET_RECIPE_DETAILS, SEARCH_RECIPES, UPDATE_QUERY, FIND_OWNED_RECIPES, FIND_SAVED_RECIPES, DELETE_SAVED_RECIPES, ADD_SAVED_RECIPES} from "../actions/recipeAction";
 
 
 const date = new Date().toDateString();
@@ -13,6 +13,7 @@ const initialState = {
     // steps: {number: "", step: ""},
     query: "",
     ownedRecipes: [],
+    savedRecipes: [],
 }
 
 export const recipeReducer = (state = initialState, action) => {
@@ -41,6 +42,24 @@ export const recipeReducer = (state = initialState, action) => {
             return {
                 ...state,
                 ownedRecipes: action.ownedRecipes,
+            }
+        case FIND_SAVED_RECIPES:
+            return {
+                ...state,
+                savedRecipes: action.savedRecipes,
+            }
+        case ADD_SAVED_RECIPES:
+            return {
+                ...state,
+                savedRecipes: [
+                    ...state.savedRecipes,
+                    action.savedRecipe
+                ],
+            }
+        case DELETE_SAVED_RECIPES:
+            return {
+                ...state,
+                savedRecipes: state.savedRecipes.filter(recipe => recipe._id !== action.recipeId)
             }
         default:
             return state;

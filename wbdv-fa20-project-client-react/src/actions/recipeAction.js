@@ -1,5 +1,7 @@
 import RecipeService from "../services/RecipeService";
 
+export const ADD_SAVED_RECIPES = "ADD_SAVED_RECIPES";
+export const DELETE_SAVED_RECIPES = "DELETE_SAVED_RECIPES";
 export const CREATE_RECIPE = "CREATE_RECIPE";
 export const DELETE_RECIPE = "DELETE_RECIPE";
 export const SEARCH_RECIPES = "SEARCH_RECIPES";
@@ -56,5 +58,26 @@ export const findOwnedRecipes = (dispatch, ownedRecipes) => {
     dispatch({
         type: FIND_OWNED_RECIPES,
         ownedRecipes
+    });
+}
+
+export const findSavedRecipes = (dispatch, savedRecipes) => {
+    dispatch({
+        type: FIND_SAVED_RECIPES,
+        savedRecipes
+    });
+}
+
+export const addSavedRecipe = (dispatch, savedRecipe) => {
+    dispatch({
+        type: ADD_SAVED_RECIPES,
+        savedRecipe
+    });
+}
+
+export const deleteSavedRecipe = (dispatch, recipeId) => {
+    dispatch({
+        type: DELETE_SAVED_RECIPES,
+        recipeId
     });
 }
