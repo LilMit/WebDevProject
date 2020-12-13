@@ -15,15 +15,15 @@ export const searchRecipes = (query) =>
     fetch(`${searchRecipesUrl}/?query=${query}?includeInstructions=true&apiKey=${apiKey}`)
         .then(response => response.json())
 
-export const getRecipeDetails = (recipeId) => {
-    return fetch(`${baseUrl}/${recipeId}/${recipeDetailsSecondHalf}`)
-    .then(response => response.json())
-}
-
 // export const getRecipeDetails = (recipeId) => {
-//     return fetch(`${localRecipesURL}/${recipeId}`)
-//         .then(response => response.json())
+//     return fetch(`${baseUrl}/${recipeId}/${recipeDetailsSecondHalf}`)
+//     .then(response => response.json())
 // }
+
+export const getRecipeDetails = (recipeId) => {
+    return fetch(`${localRecipesURL}/${recipeId}`)
+        .then(response => response.json())
+}
 
 
 export default {searchRecipes, getRecipeDetails, findRandomRecipes}
