@@ -52,7 +52,14 @@ const EditRecipeComponent = (userId, originalRecipe, addRecipeDisptachAction) =>
             readyInMinutes: recipe.readyInMinutes,
             imageUrl: recipe.imageUrl,
         };
-        RecipeService.updateRecipe(finalRecipe._id, finalRecipe);
+        RecipeService.updateRecipe(finalRecipe._id, finalRecipe).then((data) => {
+            if(data && !data.error) {
+                addRecipeDisptachAction(data);
+                history.push(`/recipe/${recipe._id}`);
+            } else {
+                alert('Something went wrong');
+            }
+        });
     }
 
     const cancel = (event) => {

@@ -170,7 +170,7 @@ const CreateRecipeComponent = ({userId}) => {
                         <textarea
                             className="form-control"
                             id="ingredients"
-                            placeholder="Ingredient name : quantity"
+                            placeholder="Ingredient seperated by new line."
                             rows="3"
                             value={recipe.ingredients}
                             onChange={(event) => changeIngredients(event)}/>
