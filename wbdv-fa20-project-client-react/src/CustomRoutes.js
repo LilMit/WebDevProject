@@ -14,6 +14,7 @@ import AllUsers from './container/Users/AllUsers';
 import ProfileComponent from './components/Profile/ProfileComponent';
 import OwnedRecipesContainer from './container/OwnedRecipes/OwnedRecipesContainer';
 import SavedRecipesContainer from './container/SavedRecipes/SavedRecipesContainer';
+import EditRecipe from './components/EditRecipe/EditRecipeComponent'
 
 import RecipeDetails from "./container/RecipeDetails/RecipeDetails";
 import SearchResultsPage from "./container/SearchResults/SearchResultsContainer";
@@ -54,6 +55,7 @@ class CustomRoutes extends React.Component {
             <Route path="/savedRecipes/:userId" component = {SavedRecipesContainer} exact />
             <Route path="/ownedRecipes/:userId" component = {OwnedRecipesContainer} exact />
             <Route path="/recipe/:recipeId" component = {RecipeDetails} exact />
+            <Route path="/edit/recipe/:recipeId" component = {EditRecipe} exact />
             <Route path="/ownedRecipes/:userId/create" component = {CreateRecipeComponent} exact />
             <Route path="/">
               <Redirect to="/home" />

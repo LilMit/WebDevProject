@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {connect} from 'react-redux'
 import { useHistory } from 'react-router-dom';
 import { addSavedRecipe, deleteSavedRecipe } from '../../actions/recipeAction';
@@ -6,10 +6,11 @@ import RecipeService from '../../services/RecipeService';
 import UserSavedRecipeService from '../../services/UserSavedRecipeService';
 import IngredientsComponent from "./IngredientsComponent";
 
-//TODO if user not logged in, redirect to login page when rate or save recipe is clicked
 const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, addSavedRecipeDispatchAction, deleteSavedRecipeDispatchAction}) => {
 
     const history = useHistory();
+
+    const [recipeSaved, setRecipeSaved] = useState(isSavedRecipe);
     
     const saveRecipe = (event) => {
         event.preventDefault();
@@ -18,6 +19,7 @@ const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, ad
         }
         UserSavedRecipeService.saveRecipe(userId, recipe._id).then((data) => {
             if(data && !data.error) {
+                setRecipeSaved(true);
                 addSavedRecipeDispatchAction(data);
             } else {
                 alert('Something went wrong try again ins a few mintues.');
@@ -31,6 +33,7 @@ const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, ad
         event.preventDefault();
         UserSavedRecipeService.deleteSavedRecipe(userId, recipe._id).then((data) => {
             if(data && !data.error) {
+                setRecipeSaved(false);
                 deleteSavedRecipeDispatchAction(recipe._id);
             } else {
                 alert('Something went wrong try again ins a few mintues.');
@@ -51,6 +54,11 @@ const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, ad
         });
     }
 
+    const editRecipe = (event) => {
+        event.preventDefault();
+        history.push(`/edit/recipe/${recipe._id}`);
+    }
+
     return (
         <div className="container">
             <h1>{recipe.title}</h1>
@@ -60,12 +68,15 @@ const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, ad
                 </div>
                 <div className="col">
                     { 
-                        !isSavedRecipe ? 
+                        !recipeSaved ? 
                         <button className="btn btn-info m-1" onClick={(event) => saveRecipe(event)}>Save Recipe</button> :
                         <button className="btn btn-warning m-1" onClick={(event) => deleteSavedRecipe(event)}>Unsave Recipe</button>
                     }
                     {
                         isOwner && <button className="btn btn-danger m-1" onClick = {(event) => deleteRecipe(event)}>Delete Recipe</button>
+                    }
+                    {
+                        isOwner && <button className="btn btn-primary m-1" onClick = {(event) => editRecipe(event)}>Edit Recipe</button>
                     }
                     <ul className="list-group">
                         <li className="list-group-item">Time to prepare: {recipe.readyInMinutes} minutes </li>
@@ -78,7 +89,7 @@ const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, ad
                 </div>
             </div>
             <div className="row">
-                    {/* <IngredientsComponent {...recipe}/> */}
+                    <IngredientsComponent {...recipe}/>
                     {/*<InstructionsComponent {...recipe}/>*/}
                 <div className = "col">
                     <h3>Instructions</h3>
