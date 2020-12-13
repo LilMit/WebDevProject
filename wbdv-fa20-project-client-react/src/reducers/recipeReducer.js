@@ -1,4 +1,4 @@
-import {FIND_RANDOM_RECIPES, GET_DETAILS, SEARCH_RECIPES, UPDATE_QUERY} from "../actions/recipeAction";
+import {FIND_RANDOM_RECIPES, GET_RECIPE_DETAILS, SEARCH_RECIPES, UPDATE_QUERY, FIND_OWNED_RECIPES} from "../actions/recipeAction";
 
 
 const date = new Date().toDateString();
@@ -11,7 +11,8 @@ const initialState = {
     },
     extendedIngredient: {originalString: ""},
     // steps: {number: "", step: ""},
-    query: ""
+    query: "",
+    ownedRecipes: [],
 }
 
 export const recipeReducer = (state = initialState, action) => {
@@ -35,6 +36,11 @@ export const recipeReducer = (state = initialState, action) => {
             return {
                 ...state,
                 query: action.query
+            }
+        case FIND_OWNED_RECIPES:
+            return {
+                ...state,
+                ownedRecipes: action.ownedRecipes,
             }
         default:
             return state;

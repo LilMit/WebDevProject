@@ -41,6 +41,7 @@ const NavigationComponent = ({
     const shouldRenderTab = (tab) => {
         switch (tab.tabName) {
             case 'Home':
+            case 'All Users':
                 return true;
             case 'Profile':
                 return isLoggedIn;
@@ -48,8 +49,6 @@ const NavigationComponent = ({
                 return isLoggedIn;
             case 'Your Recipes':
                 return type === 'AUTHOR';
-            case 'All Users':
-                return type === 'ADMIN';
             default:
                 return true;
         }

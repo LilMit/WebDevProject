@@ -19,6 +19,7 @@ import RecipeDetails from "./container/RecipeDetails/RecipeDetails";
 import SearchResultsPage from "./container/SearchResults/SearchResultsContainer";
 
 import CreateRecipeComponent from './components/CreateRecipe/CreateRecipeComponent';
+import ProfileUserComponent from './components/ProfileUser/ProfileUserComponent';
 
 
 const reducers = combineReducers({
@@ -40,6 +41,10 @@ class CustomRoutes extends React.Component {
           <Switch>
             <Route path="/login"  component = {LoginComponent} exact />
             <Route path="/signup" component = {SignUpComponent} exact />
+            <Route path="/profile" exact>
+              <NavigationComponent />
+              <ProfileUserComponent />
+            </Route>
             <Route path="/profile/:userId" exact>
               <NavigationComponent />
               <ProfileComponent />
@@ -49,7 +54,6 @@ class CustomRoutes extends React.Component {
             <Route path="/users" component = { AllUsers } exact />
             <Route path="/savedRecipes/:userId" component = {SavedRecipesContainer} exact />
             <Route path="/ownedRecipes/:userId" component = {OwnedRecipesContainer} exact />
-
             <Route path="/recipe/:recipeId" component = {RecipeDetails} exact />
             <Route path="/ownedRecipes/:userId/create" component = {CreateRecipeComponent} exact />
             <Route path="/">

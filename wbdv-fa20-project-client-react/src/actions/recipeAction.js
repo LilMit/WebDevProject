@@ -1,5 +1,4 @@
 import RecipeService from "../services/RecipeService";
-import {Redirect} from "react-router-dom";
 import recipeService from "../services/RecipeService";
 
 export const CREATE_RECIPE = "CREATE_RECIPE";
@@ -42,4 +41,11 @@ export const getRecipeDetails = (dispatch, recipeId) => {
                 recipe: actualRecipe
             })
         })
+}
+
+export const findOwnedRecipes = (dispatch, ownedRecipes) => {
+    dispatch({
+        type: FIND_OWNED_RECIPES,
+        ownedRecipes
+    });
 }

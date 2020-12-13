@@ -38,5 +38,3 @@ const mapPropsToDispatch = (dispatch) => ({
 
 export default connect(mapStateToProps, mapPropsToDispatch) (HomeNavigation);
 
-export default (HomeNavigation);
-

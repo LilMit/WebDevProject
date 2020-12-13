@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 
 const IMAGEURL = "https://spoonacular.com/recipeImages/"
 
-const RecipeCardComponent = ({id, title, image}) => {
+const RecipeCardComponent = ({id, title, image, imageUrl}) => {
 
     const reduceTitle = (title) => {
         if (title.length > 15) {
@@ -13,18 +13,10 @@ const RecipeCardComponent = ({id, title, image}) => {
         return title;
     }
 
-    const getFormattedDate = (date) => {
-        const todayTime = new Date(date);
-        const month = todayTime.getMonth() + 1;
-        const day = todayTime.getDate();
-        const year = todayTime.getFullYear();
-        return `${month}/${day}/${year}`;
-    }
-
     return (
         <div className="card mr-1 ml-1">
             {/* <img className="card-img-top" src={`${IMAGEURL}${id}-${SIZE}.${TYPE}`} alt="Recipe Image" /> */}
-            <img className="card-img-top" src={image} alt="Recipe Image"/>
+            <img className="card-img-top" src={image || imageUrl} alt="Recipe Image"/>
             <div className="card-body">
                 <Link to={`/recipe/${id}`} className="link custom-link">
                     <h5 className="card-title"><strong>{reduceTitle(title)}</strong></h5>

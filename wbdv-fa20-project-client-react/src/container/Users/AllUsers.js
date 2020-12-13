@@ -12,7 +12,7 @@ class AllUsers extends React.Component {
     }
 
     componentDidMount() {
-        UserService.getAllUsers(this.props.user._id).then((users) => {
+        UserService.getAllUsers().then((users) => {
             if (users && !users.error) {
                 this.setState(prevState => ({
                     ...prevState,
