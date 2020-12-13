@@ -48,7 +48,7 @@ export const updateRecipe = (recipeId, recipe) => {
         },
         body: JSON.stringify(recipe)
     };
-    return fetch(`${localRecipesCreateURL}/recipes/${recipeId}`, init).then(response => response.json());
+    return fetch(`${localRecipesURL}/${recipeId}`, init).then(response => response.json());
 }
 
 export const deleteRecipe = (recipeId) => {

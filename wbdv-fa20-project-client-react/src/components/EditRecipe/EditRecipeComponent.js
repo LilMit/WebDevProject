@@ -3,8 +3,9 @@ import RecipeService from '../../services/RecipeService';
 import { addRecipeAction } from '../../actions/recipeAction';
 import {useHistory, useParams} from 'react-router-dom';
 import { connect } from 'react-redux';
+import NavigationComponent from '../Navigation/NavigationComponent';
 
-const EditRecipeComponent = (userId, originalRecipe, addRecipeDisptachAction) => {
+const EditRecipeComponent = ({userId, originalRecipe, addRecipeDisptachAction}) => {
 
     const initialState = {
         title: '',
@@ -24,20 +25,29 @@ const EditRecipeComponent = (userId, originalRecipe, addRecipeDisptachAction) =>
     const params = useParams();
 
     useEffect(() => {
-        if(originalRecipe.userId._id !== userId) {
-            history.push(`/recipes/${originalRecipe._id}`);
-        } else if(originalRecipe._id !== params.recipeId) {
+        if(originalRecipe && originalRecipe.userId && originalRecipe.userId._id !== userId) {
+            history.push(`/recipe/${originalRecipe._id}`);
+        } else {
             RecipeService.getLocalRecipeDetails(params.recipeId).then((data) => {
+                console.log(data);
                 if(data && !data.error) {
-                    addRecipeDisptachAction(data);
+                    console.log("Original Recipe", originalRecipe);
+                    console.log(data._id !== originalRecipe._id);
+                    if((data._id !== originalRecipe._id) || (!originalRecipe)) {
+                        setRecipe({
+                            ...initialState,
+                            ...data,
+                        });
+                        addRecipeDisptachAction(data);
+                    }
                 } else {
-                    history.push(`/recipes/${originalRecipe._id}`);
+                    history.push(`/recipe/${originalRecipe._id}`);
                 }
             }).catch((data) => {
-                history.push(`/recipes/${originalRecipe._id}`);
+                history.push(`/recipe/${originalRecipe._id}`);
             })
         }
-    })
+    }, [originalRecipe])
 
     const [recipe, setRecipe] = useState(initialState);
 
@@ -55,7 +65,10 @@ const EditRecipeComponent = (userId, originalRecipe, addRecipeDisptachAction) =>
         RecipeService.updateRecipe(finalRecipe._id, finalRecipe).then((data) => {
             if(data && !data.error) {
                 addRecipeDisptachAction(data);
-                history.push(`/recipe/${recipe._id}`);
+                setRecipe({
+                    ...initialState,
+                    ...data,
+                });
             } else {
                 alert('Something went wrong');
             }
@@ -67,7 +80,7 @@ const EditRecipeComponent = (userId, originalRecipe, addRecipeDisptachAction) =>
         setRecipe({
             ...initialState,
         });
-        history.push(`/ownedRecipes/${params.userId}`);
+        history.push(`/ownedRecipes/${userId}`);
     }
 
     const changeTitle = (event) => {
@@ -148,7 +161,9 @@ const EditRecipeComponent = (userId, originalRecipe, addRecipeDisptachAction) =>
     }
 
     return (
-        <div className="container">
+        <>
+        <NavigationComponent />
+        <div className="container mt-2">
             <div className="form-group row">
                 <div className="col-sm-2 col-form-label">
                     <span>Image title</span>
@@ -245,6 +260,7 @@ const EditRecipeComponent = (userId, originalRecipe, addRecipeDisptachAction) =>
                 </button>
             </div>
         </div>
+        </>
     );
 }
 

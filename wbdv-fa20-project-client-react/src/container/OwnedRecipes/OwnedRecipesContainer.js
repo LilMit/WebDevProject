@@ -6,7 +6,7 @@ import {ReactComponent as Plus} from '../../images/plus.svg';
 import { findOwnedRecipes } from '../../actions/recipeAction';
 import style from './OwnedRecipes.module.css';
 import RecipeService from '../../services/RecipeService';
-import RecipeCardComponent from '../../components/RecipeCard copy/RecipeCardComponent';
+import RecipeGridComponent from '../../components/RecipeGridLayout/RecipeGridComponent';
 
 class OwnedRecipes extends React.Component {
     constructor(props) {
@@ -49,7 +49,7 @@ class OwnedRecipes extends React.Component {
                 <NavigationComponent/>
                 <div>
                     <HomeNavigation/>
-                    <RecipeCardComponent recipes={this.props.ownedRecipes}/>
+                    <RecipeGridComponent recipes={this.props.ownedRecipes}/>
                 </div>
                 <a href="#" className={style.float_button} onClick={(event) => this.createRecipe(event)}>
                     <Plus width="20px" height="20px" className={style.my_float}/>

@@ -6,7 +6,6 @@ import RecipeService from '../../services/RecipeService';
 import UserSavedRecipeService from '../../services/UserSavedRecipeService';
 import IngredientsComponent from "./IngredientsComponent";
 
-//TODO if user not logged in, redirect to login page when rate or save recipe is clicked
 const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, addSavedRecipeDispatchAction, deleteSavedRecipeDispatchAction}) => {
 
     const history = useHistory();
@@ -57,7 +56,7 @@ const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, ad
 
     const editRecipe = (event) => {
         event.preventDefault();
-        history.push(`/recipe/edit/${recipe._id}`);
+        history.push(`/edit/recipe/${recipe._id}`);
     }
 
     return (
@@ -90,7 +89,7 @@ const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, ad
                 </div>
             </div>
             <div className="row">
-                    {/* <IngredientsComponent {...recipe}/> */}
+                    <IngredientsComponent {...recipe}/>
                     {/*<InstructionsComponent {...recipe}/>*/}
                 <div className = "col">
                     <h3>Instructions</h3>
