@@ -56,7 +56,7 @@ const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, ad
             <h1>{recipe.title}</h1>
             <div className="row">
                 <div className="col">
-                    <img className="card-img-top" src={recipe.image} alt="Recipe Image"/>
+                    <img className="card-img-top" src={recipe.image || recipe.imageURL} alt="Recipe Image"/>
                 </div>
                 <div className="col">
                     { 
@@ -78,7 +78,7 @@ const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, ad
                 </div>
             </div>
             <div className="row">
-                    {/* <IngredientsComponent {...recipe}/> */}
+                     <IngredientsComponent {...recipe}/>
                     {/*<InstructionsComponent {...recipe}/>*/}
                 <div className = "col">
                     <h3>Instructions</h3>
