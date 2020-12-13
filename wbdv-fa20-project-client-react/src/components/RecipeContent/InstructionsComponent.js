@@ -5,13 +5,9 @@ const InstructionsComponent = ({recipe}) => {
     return (
         <div className="col">
             <h3>Instructions</h3>
-            {console.log({recipe})}
-            {recipe.analyzedInstructions !== [{steps: [{number: "", step: ""}]}] &&
-            <ol className="list-group">
-                {recipe.analyzedInstructions.steps.map(
-                actualStep => <li className="list-group-item">{actualStep.step}</li>)}
-            </ol>}{recipe.analyzedInstructions === [{steps: [{number: "", step: ""}]}] &&
-        recipe.instructions}
+            <ul className="list-group">
+                {splitText(recipe.instructions).map(line=><li className="list-group-item">{line}</li>)}
+            </ul>
         </div>
     )
 }
@@ -20,4 +16,9 @@ const mapStateToProps = (state) => ({
     // ingredient: state.recipeReducer.ingredient,
     // extendedIngredient: state.recipeReducer.extendedIngredient
 })
+
+const splitText = (instructions) => {
+    const trimmedInstructions = instructions.trim()
+    return trimmedInstructions.split("\n");}
+
 export default connect(mapStateToProps)(InstructionsComponent)
