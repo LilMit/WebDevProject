@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import RecipeService from "../services/RecipeService";
 import recipeService from "../services/RecipeService";
+=======
+
+import RecipeService from "../services/RecipeService";
+import {Redirect} from "react-router-dom";
+>>>>>>> 38597fbc6ff0029d938c57520152fe3678fde923
 
 export const CREATE_RECIPE = "CREATE_RECIPE";
 export const DELETE_RECIPE = "DELETE_RECIPE";
@@ -12,7 +18,7 @@ export const FIND_RANDOM_RECIPES = "FIND_RANDOM";
 export const UPDATE_QUERY = "UPDATE_QUERY"
 
 export const findRandomRecipes = (dispatch) => {
-    recipeService.findRandomRecipes()
+    RecipeService.findRandomRecipes()
         .then(actualRecipes => {
             dispatch({type: FIND_RANDOM_RECIPES, recipes: actualRecipes.recipes})
         })
@@ -23,17 +29,14 @@ export const updateQuery = (dispatch, query) => {
 }
 
 export const searchRecipes = (dispatch, query) => {
-
-    RecipeService.searchRecipes(query).then(actualRecipes => dispatch({type: SEARCH_RECIPES, recipes: actualRecipes.results}))
-
-    recipeService.searchRecipes(query).then(actualRecipes => dispatch({
+    RecipeService.searchRecipes(query).then(actualRecipes => dispatch({
         type: SEARCH_RECIPES,
-        recipes: actualRecipes.recipes
+        recipes: actualRecipes.results
     }))
 }
 
 export const getRecipeDetails = (dispatch, recipeId) => {
-    recipeService.getRecipeDetails(recipeId)
+    RecipeService.getRecipeDetails(recipeId)
         .then(actualRecipe => {
             console.log("actualRecipe", actualRecipe);
             dispatch({

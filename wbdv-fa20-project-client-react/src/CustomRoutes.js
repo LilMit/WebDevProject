@@ -33,7 +33,6 @@ const store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__
 
 class CustomRoutes extends React.Component {
   
-  
   render () {
     return (
       <Provider store={store}>
@@ -64,6 +63,7 @@ class CustomRoutes extends React.Component {
       </Provider>
     );
   }
+
 }
 
 export default CustomRoutes;

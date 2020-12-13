@@ -13,6 +13,7 @@ const RecipeContent = ({recipe}) => {
                     <img className="card-img-top" src={recipe.image} alt="Recipe Image"/>
                 </div>
                 <div className="col">
+                    <button className="btn btn-info">Save Recipe</button>
                     <ul className="list-group">
                         <li className="list-group-item">Time to prepare: {recipe.readyInMinutes} minutes </li>
                         <li className="list-group-item">Serves: {recipe.servings}</li>
@@ -43,5 +44,5 @@ const RecipeContent = ({recipe}) => {
 const mapStateToProps = (state) => ({
     recipe: state.recipeReducer.recipe
 })
-
+//TODO add save recipe action and comment components
 export default connect(mapStateToProps)(RecipeContent);

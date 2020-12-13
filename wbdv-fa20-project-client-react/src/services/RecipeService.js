@@ -5,10 +5,12 @@ const searchRecipesUrl = "https://api.spoonacular.com/recipes/complexSearch"
 //const generateRecipeCardUrl = "https://api.spoonacular.com/recipes/visualizeRecipe"
 const recipeImageUrl = "https://spoonacular.com/recipeImages/{ID}-{SIZE}.{TYPE}"
 const apiKey = "fd8eb1342ad14b99aa1933816c38d9fe"
+const baseUrl = "https://api.spoonacular.com/recipes";
+const recipeDetailsSecondHalf = "information?includeNutrition=false&apiKey=fd8eb1342ad14b99aa1933816c38d9fe"
 
 
 export const findRandomRecipes = () =>
-    fetch(`${localRecipesURL}`)
+    fetch(`${baseUrl}/random?number=16&apiKey=${apiKey}`)
         .then(response => response.json())
 
 export const searchRecipes = (query) =>
@@ -16,8 +18,8 @@ export const searchRecipes = (query) =>
         .then(response => response.json())
 
 export const getRecipeDetails = (recipeId) => {
-    return fetch(`${localRecipesURL}/${recipeId}`)
-        .then(response => response.json())
+    return fetch(`${baseUrl}/${recipeId}/${recipeDetailsSecondHalf}`)
+    .then(response => response.json())
 }
 
 export const addRecipeDetails = (userId, recipe) => {
@@ -31,9 +33,22 @@ export const addRecipeDetails = (userId, recipe) => {
     return fetch(`${localRecipesCreateURL}/${userId}/recipes`, init).then(response => response.json());
 }
 
-export const updateRecipe = () => {
-
+export const updateRecipe = (recipeId, recipe) => {
+    const init = {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify(recipe)
+    };
+    return fetch(`${localRecipesCreateURL}/recipes/${recipeId}`, init).then(response => response.json());
 }
+
+export const getRecipeDetails = (recipeId) => {
+    return fetch(`${localRecipesURL}/${recipeId}`)
+        .then(response => response.json())
+}
+
 
 export const getAllOwnedRecipes = (userId) => {
     return fetch(`${localRecipesCreateURL}/${userId}/recipes`).then(response => response.json());
