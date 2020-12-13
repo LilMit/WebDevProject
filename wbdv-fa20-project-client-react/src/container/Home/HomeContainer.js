@@ -3,9 +3,9 @@ import HomeNavigation from '../../components/HomeNavigation/HomeNavigation';
 import NavigationComponent from '../../components/Navigation/NavigationComponent';
 import RecipeGridComponent from '../../components/RecipeGridLayout/RecipeGridComponent';
 
-
-import {connect} from 'react-redux';
-import {findRandomRecipes} from "../../actions/recipeAction";
+import { connect } from 'react-redux';
+import {findRandomRecipes, findRecentRecipes} from "../../actions/recipeAction";
+import RecipeService from '../../services/RecipeService';
 
 
 // TODO: must be dynamic based on most recent info - eg show a row of recently reviewed or created recipes?
@@ -16,10 +16,30 @@ class Home extends React.Component {
     }
 
     componentDidMount() {
-        this.props.findRandomRecipes()
+        this.props.findRandomRecipes();
+        if(this.props.userId) {
+            RecipeService.fetchRecentRecipes(this.props.userId).then((data) => {
+                if(data && !data.error) {
+                    this.props.fetchRecentRecipes(data);
+                }
+            }).catch((data) => {
+                console.log(data);
+            });
+        }
     }
 
     componentDidUpdate() {
+        if(this.props.userId) {
+            RecipeService.fetchRecentRecipes(this.props.userId).then((data) => {
+                if(data && !data.error) {
+                    if(this.props.recentRecipes.length !== data.length) {
+                        this.props.fetchRecentRecipes(data);
+                    }
+                }
+            }).catch((data) => {
+                console.log(data);
+            });
+        }
     }
 
     render() {
@@ -28,6 +48,13 @@ class Home extends React.Component {
                 <NavigationComponent/>
                 <div>
                     <HomeNavigation/>
+                    {
+                    this.props.userId && this.props.recentRecipes && this.props.recentRecipes.length !== 0  &&
+                        <div className="container m-1 b-1">
+                            <h3> Recently interacted Recipes</h3>
+                            <RecipeGridComponent recipes={this.props.recentRecipes}/>
+                        </div>
+                    }
                     <RecipeGridComponent recipes={this.props.recipes}/>
                 </div>
             </>
@@ -36,12 +63,15 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+    userId: state.userReducer._id,
     recipes: state.recipeReducer.recipes,
+    recentRecipes: state.recipeReducer.recentRecipes
 });
 
 const mapPropsToDispatch = (dispatch) =>
     ({
-        findRandomRecipes: ()=> findRandomRecipes(dispatch)
+        findRandomRecipes: ()=> findRandomRecipes(dispatch),
+        findRecentRecipes: (recipe) => findRecentRecipes(dispatch, recipe)
     })
 
 

@@ -2,13 +2,15 @@ import React, {useEffect, useState} from 'react';
 import AlertComponent from '../Alert/AlertComponent';
 import FormFieldComponent from '../FormField/FormFieldComponent';
 import UserService from '../../services/UserService';
-import style from './ProfileComponent.module.css';
-import {useHistory, useParams} from 'react-router-dom';
+import style from './ProfileUserComponent.module.css';
+import {useHistory} from 'react-router-dom';
 import {connect} from 'react-redux';
+import {addUserAction} from '../../actions/userAction';
 
-const Profile = ({loggedInUser}) => {
+const ProfileUserComponent = ({addUserDispatchAction, loggedInUser}) => {
 
     let intialState = {
+        ...loggedInUser,
         isUsernameUpdated: false,
         isPasswordUpdated: false,
         isEmailUpdated: false,
@@ -20,32 +22,12 @@ const Profile = ({loggedInUser}) => {
     };
 
     const history = useHistory();
-    const params = useParams();
 
     useEffect(() => {
 
-        if (history.location.state && history.location.state.user) {
-            const {user} = history.location.state;
-            if(user._id === loggedInUser._id) {
-                history.push(`/profile`);
-            }
-        } 
-
-        
-        UserService.getUserById(params.userId).then((data) => {
-            if (data.error) {
-                setProfileDetails({
-                    ...intialState,
-                    alert: 'd-block',
-                });
-            } else {
-                intialState = {
-                    ...intialState,
-                    ...data,
-                };
-                setProfileDetails(intialState);
-            }
-        });
+        if (!loggedInUser._id) {
+            history.push('/login');
+        }
 
     }, loggedInUser);
 
@@ -88,11 +70,7 @@ const Profile = ({loggedInUser}) => {
                     UserService.updateUserRole(loggedInUser._id, user._id, profileDetails.type)
                         .then((updatedRole) => {
                             if (updatedRole && !updatedRole.error) {
-                                setProfileDetails({
-                                    ...profileDetails,
-                                    ...intialState,
-                                    ...updatedRole,
-                                });
+                                addUserDispatchAction(updatedRole);
                             } else {
                                 setProfileDetails({
                                     ...intialState,
@@ -101,11 +79,7 @@ const Profile = ({loggedInUser}) => {
                             }
                         });
                 } else {
-                    setProfileDetails({
-                        ...profileDetails,
-                        ...intialState,
-                        ...data,
-                    });
+                    addUserDispatchAction(data);
                 }
             } else {
                 setProfileDetails({
@@ -257,14 +231,14 @@ const Profile = ({loggedInUser}) => {
                     onChangeEventHandler={updateUsername}
                     disabled={true}
                     divClass={style.remove_margin}/>
-                { loggedInUser.type === 'ADMIN' && <FormFieldComponent
+                <FormFieldComponent
                     label="Password"
                     placeholder="QWERTasdfg"
                     inputValue={profileDetails.password}
                     inputType='password'
                     id='password'
                     onChangeEventHandler={updatePassword}
-                    divClass={style.remove_margin}/> }
+                    divClass={style.remove_margin}/>
                 <FormFieldComponent
                     label="Firstname"
                     placeholder="John"
@@ -289,7 +263,7 @@ const Profile = ({loggedInUser}) => {
                     id='email'
                     onChangeEventHandler={updateEmail}
                     divClass={style.remove_margin}/>
-                { loggedInUser.type === 'ADMIN' && <div className={`form-group row ${style.remove_margin}`}>
+                <div className={`form-group row ${style.remove_margin}`}>
                     <div className="col-sm-2 col-form-label">
                         <span>Role</span>
                     </div>
@@ -317,8 +291,8 @@ const Profile = ({loggedInUser}) => {
                                 )
                         }
                     </div>
-                    </div> }
-                { loggedInUser.type === 'ADMIN' && <div className={`form-group row ${style.remove_margin}`}>
+                </div>
+                <div className={`form-group row ${style.remove_margin}`}>
                     {isClearEnabled && <button className={`btn btn-success col-sm ${style.margin_btn}`}
                                                onClick={(event) => updateProfile(event)}>Update</button>}
                     {!isClearEnabled && <button className={`btn btn-success col-sm ${style.margin_btn}`}
@@ -331,7 +305,6 @@ const Profile = ({loggedInUser}) => {
                     {!isClearEnabled && <button className={`btn btn-outline-secondary col-sm ${style.margin_btn}`}
                                                 onClick={(event) => clearAll(event)} disabled>Clear</button>}
                 </div>
-                }
             </div>
         </div>
     )
@@ -341,4 +314,8 @@ const mapStateToProps = (state) => ({
     loggedInUser: state.userReducer,
 });
 
-export default connect(mapStateToProps)(Profile);
+const mapDispatchToProps = (dispatch) => ({
+    addUserDispatchAction: (user) => addUserAction(dispatch, user),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileUserComponent);

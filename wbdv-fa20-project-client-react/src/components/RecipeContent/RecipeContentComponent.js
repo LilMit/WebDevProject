@@ -1,17 +1,54 @@
 import React from 'react';
 import {connect} from 'react-redux'
+import { useHistory } from 'react-router-dom';
+import { addSavedRecipe, deleteSavedRecipe } from '../../actions/recipeAction';
+import RecipeService from '../../services/RecipeService';
+import UserSavedRecipeService from '../../services/UserSavedRecipeService';
 import IngredientsComponent from "./IngredientsComponent";
-import InstructionsComponent from "./InstructionsComponent";
 
 //TODO if user not logged in, redirect to login page when rate or save recipe is clicked
-const RecipeContent = ({recipe}) => {
+const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, addSavedRecipeDispatchAction, deleteSavedRecipeDispatchAction}) => {
 
-    const getFormattedDate = (date) => {
-        const todayTime = new Date(date);
-        const month = todayTime.getMonth() + 1;
-        const day = todayTime.getDate();
-        const year = todayTime.getFullYear();
-        return `${month}/${day}/${year}`;
+    const history = useHistory();
+    
+    const saveRecipe = (event) => {
+        event.preventDefault();
+        if(!userId || userId === '') {
+            history.push('/login');
+        }
+        UserSavedRecipeService.saveRecipe(userId, recipe._id).then((data) => {
+            if(data && !data.error) {
+                addSavedRecipeDispatchAction(data);
+            } else {
+                alert('Something went wrong try again ins a few mintues.');
+            }
+        }).catch((data) => {
+            alert('Something went wrong try again ins a few mintues.');
+        })
+    }
+
+    const deleteSavedRecipe = (event) => {
+        event.preventDefault();
+        UserSavedRecipeService.deleteSavedRecipe(userId, recipe._id).then((data) => {
+            if(data && !data.error) {
+                deleteSavedRecipeDispatchAction(recipe._id);
+            } else {
+                alert('Something went wrong try again ins a few mintues.');
+            }
+        }).catch((data) => {
+            alert('Something went wrong try again ins a few mintues.');
+        })
+    }
+
+    const deleteRecipe = (event) => {
+        event.preventDefault();
+        RecipeService.deleteRecipe(recipe._id).then((data) => {
+            if(data && !data.error) {
+                deleteSavedRecipeDispatchAction(recipe._id);
+            }
+            history.push(`/savedRecipes/${userId}`);
+            console.log(data);
+        });
     }
 
     return (
@@ -22,7 +59,14 @@ const RecipeContent = ({recipe}) => {
                     <img className="card-img-top" src={recipe.image} alt="Recipe Image"/>
                 </div>
                 <div className="col">
-                    <button className="btn btn-info">Save Recipe</button>
+                    { 
+                        !isSavedRecipe ? 
+                        <button className="btn btn-info m-1" onClick={(event) => saveRecipe(event)}>Save Recipe</button> :
+                        <button className="btn btn-warning m-1" onClick={(event) => deleteSavedRecipe(event)}>Unsave Recipe</button>
+                    }
+                    {
+                        isOwner && <button className="btn btn-danger m-1" onClick = {(event) => deleteRecipe(event)}>Delete Recipe</button>
+                    }
                     <ul className="list-group">
                         <li className="list-group-item">Time to prepare: {recipe.readyInMinutes} minutes </li>
                         <li className="list-group-item">Serves: {recipe.servings}</li>
@@ -34,7 +78,7 @@ const RecipeContent = ({recipe}) => {
                 </div>
             </div>
             <div className="row">
-                    <IngredientsComponent {...recipe}/>
+                    {/* <IngredientsComponent {...recipe}/> */}
                     {/*<InstructionsComponent {...recipe}/>*/}
                 <div className = "col">
                     <h3>Instructions</h3>
@@ -47,9 +91,36 @@ const RecipeContent = ({recipe}) => {
             </div>
         </div>
     );
+
 }
-const mapStateToProps = (state) => ({
-    recipe: state.recipeReducer.recipe
+
+const mapStateToProps = (state) => {
+    let isSavedRecipe = false;
+    const recipe = state.recipeReducer.recipe;
+    const savedRecipes = state.recipeReducer.savedRecipes;
+    savedRecipes.forEach(savedRecipe => {
+        if(savedRecipe._id === recipe._id) {
+            isSavedRecipe = true;
+        }
+    });
+
+    let isOwner = false; 
+    if(recipe.userId) {
+        isOwner = recipe.userId._id === state.userReducer._id;
+    }
+
+    return {
+        recipe: recipe,
+        savedRecipes: savedRecipes,
+        isSavedRecipe: isSavedRecipe,
+        userId: state.userReducer._id,
+        isOwner: isOwner
+    }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    addSavedRecipeDispatchAction: (recipe) => addSavedRecipe(dispatch,recipe),
+    deleteSavedRecipeDispatchAction: (recipeId) => deleteSavedRecipe(dispatch, recipeId)
 })
 //TODO add save recipe action and comment components
-export default connect(mapStateToProps)(RecipeContent);
+export default connect(mapStateToProps, mapDispatchToProps)(RecipeContent);
