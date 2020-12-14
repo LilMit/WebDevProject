@@ -16,7 +16,9 @@ export const UPDATE_QUERY = "UPDATE_QUERY"
 export const findRandomRecipes = (dispatch) => {
     RecipeService.findRandomRecipes()
         .then(actualRecipes => {
-            dispatch({type: FIND_RANDOM_RECIPES, recipes: actualRecipes.recipes})
+            if(actualRecipes && !actualRecipes.err && !actualRecipes.error) {
+                dispatch({type: FIND_RANDOM_RECIPES, recipes: actualRecipes})
+            }
         }).catch((data) => {
             console.log(data);
         });
@@ -27,10 +29,11 @@ export const updateQuery = (dispatch, query) => {
 }
 
 export const searchRecipes = (dispatch, query) => {
-    RecipeService.searchRecipes(query).then(actualRecipes => dispatch({
-        type: SEARCH_RECIPES,
-        recipes: actualRecipes.results
-    })).catch((data) => {
+    RecipeService.searchRecipes(query).then(actualRecipes => {
+        if(actualRecipes && !actualRecipes.err && !actualRecipes.error && actualRecipes.results) {
+            dispatch({ type: SEARCH_RECIPES, recipes: actualRecipes.results});
+        }
+    }).catch((data) => {
         console.log(data);
     });
 }
@@ -39,10 +42,12 @@ export const getRecipeDetails = (dispatch, recipeId) => {
     RecipeService.getLocalRecipeDetails(recipeId)
         .then(actualRecipe => {
             console.log("actualRecipe", actualRecipe);
-            dispatch({
-                type: GET_RECIPE_DETAILS,
-                recipe: actualRecipe
-            })
+            if(actualRecipes && !actualRecipes.err && !actualRecipes.error) {
+                dispatch({
+                    type: GET_RECIPE_DETAILS,
+                    recipe: actualRecipe
+                })
+            }
         }).catch((data) => {
             console.log(data);
         });

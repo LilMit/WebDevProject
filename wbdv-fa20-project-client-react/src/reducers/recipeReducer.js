@@ -13,7 +13,6 @@ const initialState = {
     ownedRecipes: [],
     savedRecipes: [],
     recentRecipes: [],
-
 }
 
 export const recipeReducer = (state = initialState, action) => {

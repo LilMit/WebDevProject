@@ -23,8 +23,7 @@ const HomeNavigation = ({query, update, search}) => {
                 <form className="form-inline my-2 my-lg-0">
                     <input className="form-control mr-1 mr-sm-2" type="search" name="query" placeholder="Search"
                            aria-label="Search" onChange={(event)=>update(event.target.value)} onKeyDown={(event) =>handleKeyDown(event)}/>
-                    <Link to={`/search/${query}`} className="btn btn-outline-success nav-link my-2 my-sm-0">Search</Link>
-
+                    <Link type = "button" to={`/search/${query}`} className="btn btn-outline-success nav-link my-2 my-sm-0">Search</Link>
                 </form>
             </div>
         </nav>

@@ -64,7 +64,7 @@ const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, ad
             <h1>{recipe.title}</h1>
             <div className="row">
                 <div className="col">
-                    <img className="card-img-top" src={recipe.image} alt="Recipe Image"/>
+                    <img className="card-img-top" src={recipe.image || recipe.imageUrl} alt="Recipe Image"/>
                 </div>
                 <div className="col">
                     { 
@@ -81,10 +81,9 @@ const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, ad
                     <ul className="list-group">
                         <li className="list-group-item">Time to prepare: {recipe.readyInMinutes} minutes </li>
                         <li className="list-group-item">Serves: {recipe.servings}</li>
-                        <li className="list-group-item">Original Posting: <a className="nav-link" href={recipe.sourceUrl}>{recipe.title}</a>
-                        </li>
-                        {/*TODO lookup/calculate rating for recipe*/}
-                        <li className="list-group-item">Rating:</li>
+                        {recipe.sourceUrl && <li className="list-group-item">Original Posting: <a className="nav-link" href={recipe.sourceUrl}>{recipe.title}</a>
+                        </li>}
+                        {!recipe.sourceUrl && <li className="list-group-item">Original Posting: {recipe.title} </li>}
                     </ul>
                 </div>
             </div>

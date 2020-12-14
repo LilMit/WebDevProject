@@ -11,11 +11,13 @@ const RecipeCardComponent = (recipe) => {
         return title;
     }
 
+    const data = recipe._id || recipe.id;
+
     return (
         <div className="card mr-1 ml-1">
             <img className="card-img-top" src={recipe.image || recipe.imageUrl} alt="Recipe Image"/>
             <div className="card-body">
-                <Link to={`/recipe/${recipe._id}`} className="link custom-link">
+                <Link to={`/recipe/${data}`} className="link custom-link">
                     <h5 className="card-title"><strong>{reduceTitle(recipe.title)}</strong></h5>
                 </Link>
             </div>
