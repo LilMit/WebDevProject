@@ -42,7 +42,7 @@ export const getRecipeDetails = (dispatch, recipeId) => {
     RecipeService.getLocalRecipeDetails(recipeId)
         .then(actualRecipe => {
             console.log("actualRecipe", actualRecipe);
-            if(actualRecipes && !actualRecipes.err && !actualRecipes.error) {
+            if(actualRecipe && !actualRecipe.err && !actualRecipe.error) {
                 dispatch({
                     type: GET_RECIPE_DETAILS,
                     recipe: actualRecipe
