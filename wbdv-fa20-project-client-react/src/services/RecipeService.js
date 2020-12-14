@@ -20,7 +20,7 @@ const recipeDetailsSecondHalf = "information?includeNutrition=false&apiKey=54a43
 //         .then(response => response.json())
 
 export const findRandomRecipes = () =>
-    fetch(`${localRecipesURL}`)
+    fetch(`${remoteRecipesURL}`)
         .then(response => response.json())
 
 export const searchRecipes = (query) =>
@@ -34,7 +34,7 @@ export const searchRecipes = (query) =>
 // }
 
 export const getRecipeDetails = (recipeId) => {
-    return fetch(`${localRecipesURL}/${recipeId}`)
+    return fetch(`${remoteRecipesURL}/${recipeId}`)
         .then(response => response.json())
 }
 
@@ -47,7 +47,7 @@ export const addRecipeDetails = (userId, recipe) => {
         },
         body: JSON.stringify(recipe)
     };
-    return fetch(`${localRecipesCreateURL}/${userId}/recipes`, init).then(response => response.json());
+    return fetch(`${remoteRecipesCreateURL}/${userId}/recipes`, init).then(response => response.json());
 }
 
 export const updateRecipe = (recipeId, recipe) => {
@@ -58,7 +58,7 @@ export const updateRecipe = (recipeId, recipe) => {
         },
         body: JSON.stringify(recipe)
     };
-    return fetch(`${localRecipesURL}/${recipeId}`, init).then(response => response.json());
+    return fetch(`${remoteRecipesURL}/${recipeId}`, init).then(response => response.json());
 }
 
 export const deleteRecipe = (recipeId) => {
@@ -68,21 +68,21 @@ export const deleteRecipe = (recipeId) => {
             'content-type': 'application/json',
         },
     };
-    return fetch(`${localRecipesURL}/${recipeId}`, init).then(response => response.json());
+    return fetch(`${remoteRecipesURL}/${recipeId}`, init).then(response => response.json());
 }
 
 export const fetchRecentRecipes = (userId) => {
-    return fetch(`${localRecentRecipes}/${userId}`)
+    return fetch(`${remoteRecentRecipes}/${userId}`)
     .then(response => response.json());
 }
 
 export const getLocalRecipeDetails = (recipeId) => {
-    return fetch(`${localRecipesURL}/${recipeId}`)
+    return fetch(`${remoteRecipesURL}/${recipeId}`)
         .then(response => response.json())
 }
 
 export const getAllOwnedRecipes = (userId) => {
-    return fetch(`${localRecipesCreateURL}/${userId}/recipes`).then(response => response.json());
+    return fetch(`${remoteRecipesCreateURL}/${userId}/recipes`).then(response => response.json());
 }
 
 export default {

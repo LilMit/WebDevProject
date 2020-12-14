@@ -11,7 +11,7 @@ const saveRecipe = (userId, recipeId) => {
             'content-type': 'application/json',
         },
     };
-    return fetch(`${localSavedRecipesCreateURL}/${recipeId}/users/${userId}`, init).then(response => response.json());
+    return fetch(`${remoteSavedRecipesCreateURL}/${recipeId}/users/${userId}`, init).then(response => response.json());
 }
 
 const deleteSavedRecipe = (userId, recipeId) => {
@@ -21,11 +21,11 @@ const deleteSavedRecipe = (userId, recipeId) => {
             'content-type': 'application/json',
         },
     };
-    return fetch(`${localSavedRecipesCreateURL}/${recipeId}/users/${userId}`, init).then(response => response.json());
+    return fetch(`${remoteSavedRecipesCreateURL}/${recipeId}/users/${userId}`, init).then(response => response.json());
 }
 
 const getAllSavedRecipes = (userId) => {
-    return fetch(`${localSavedRecipesURL}/users/${userId}`).then(response => response.json());
+    return fetch(`${remoteSavedRecipesURL}/users/${userId}`).then(response => response.json());
 }
 
 export default {

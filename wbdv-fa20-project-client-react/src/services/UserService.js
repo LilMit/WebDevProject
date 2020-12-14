@@ -14,7 +14,7 @@ export const validateUser = (username, password) => {
         },
         body: JSON.stringify(body)
     };
-    return fetch(`${localUsersURL}/validate`, init).then(response => response.json());
+    return fetch(`${remoteUsersURL}/validate`, init).then(response => response.json());
 }
 
 export const addUser = (user) => {
@@ -25,7 +25,7 @@ export const addUser = (user) => {
         },
         body: JSON.stringify(user)
     };
-    return fetch(`${localUsersURL}`, init).then(response => response.json());
+    return fetch(`${remoteUsersURL}`, init).then(response => response.json());
 }
 
 export const getUser = (username) => {
@@ -35,7 +35,7 @@ export const getUser = (username) => {
             'content-type': 'application/json',
         },
     };
-    return fetch(`${localUsersURL}/${username}`, init).then(response => response.json());
+    return fetch(`${remoteUsersURL}/${username}`, init).then(response => response.json());
 }
 
 export const updateUser = (user_id, user) => {
@@ -46,7 +46,7 @@ export const updateUser = (user_id, user) => {
         },
         body: JSON.stringify(user),
     };
-    return fetch(`${localUsersURL}/${user_id}`, init).then(response => response.json());
+    return fetch(`${remoteUsersURL}/${user_id}`, init).then(response => response.json());
 }
 
 export const updateUserRole = (requestinUserId, user_id, updatedRole) => {
@@ -61,7 +61,7 @@ export const updateUserRole = (requestinUserId, user_id, updatedRole) => {
         },
         body: JSON.stringify(user),
     };
-    return fetch(`${localUsersURL}/${user_id}/role`, init).then(response => response.json());
+    return fetch(`${remoteUsersURL}/${user_id}/role`, init).then(response => response.json());
 };
 
 export const getUserById = (id) => {
@@ -71,7 +71,7 @@ export const getUserById = (id) => {
             'content-type': 'application/json',
         },
     };
-    return fetch(`${localUsersURL}/${id}`, init).then(response => response.json());
+    return fetch(`${remoteUsersURL}/${id}`, init).then(response => response.json());
 }
 
 const getAllUsers = () => {
@@ -81,7 +81,7 @@ const getAllUsers = () => {
             'content-type': 'application/json',
         },
     };
-    return fetch(`${localUsersURL}`, init).then(response => response.json());
+    return fetch(`${remoteUsersURL}`, init).then(response => response.json());
 }
 
 const deleteUser = (userToDelete) => {
@@ -91,7 +91,7 @@ const deleteUser = (userToDelete) => {
             'content-type': 'application/json',
         },
     };
-    return fetch(`${localUsersURL}/${userToDelete}`, init).then(response => response.json());
+    return fetch(`${remoteUsersURL}/${userToDelete}`, init).then(response => response.json());
 }
 
 const defaultExport = {
