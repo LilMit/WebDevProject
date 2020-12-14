@@ -15,8 +15,12 @@ const baseUrl = "https://api.spoonacular.com/recipes";
 // const recipeDetailsSecondHalf = "information?includeNutrition=false&apiKey=fd8eb1342ad14b99aa1933816c38d9fe"
 const recipeDetailsSecondHalf = "information?includeNutrition=false&apiKey=54a4329446b941c4a1e48206f0703ae4"
  
+// export const findRandomRecipes = () =>
+//     fetch(`${baseUrl}/random?number=16&apiKey=${apiKey}`)
+//         .then(response => response.json())
+
 export const findRandomRecipes = () =>
-    fetch(`${baseUrl}/random?number=16&apiKey=${apiKey}`)
+    fetch(`${localRecipesURL}`)
         .then(response => response.json())
 
 export const searchRecipes = (query) =>
