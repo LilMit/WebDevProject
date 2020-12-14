@@ -20,7 +20,7 @@ class Home extends React.Component {
         if(this.props.userId) {
             RecipeService.fetchRecentRecipes(this.props.userId).then((data) => {
                 if(data && !data.error) {
-                    this.props.fetchRecentRecipes(data);
+                    this.props.findRecentRecipes(data);
                 }
             }).catch((data) => {
                 console.log(data);
@@ -33,7 +33,7 @@ class Home extends React.Component {
             RecipeService.fetchRecentRecipes(this.props.userId).then((data) => {
                 if(data && !data.error) {
                     if(this.props.recentRecipes.length !== data.length) {
-                        this.props.fetchRecentRecipes(data);
+                        this.props.findRecentRecipes(data);
                     }
                 }
             }).catch((data) => {
@@ -50,8 +50,8 @@ class Home extends React.Component {
                     <HomeNavigation/>
                     {
                     this.props.userId && this.props.recentRecipes && this.props.recentRecipes.length !== 0  &&
-                        <div className="container m-1 b-1">
-                            <h3> Recently interacted Recipes</h3>
+                        <div className="container mb-4 mt-4 p-auto border">
+                            <h5> Recently interacted Recipes</h5>
                             <RecipeGridComponent recipes={this.props.recentRecipes}/>
                         </div>
                     }

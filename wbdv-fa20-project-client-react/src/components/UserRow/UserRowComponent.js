@@ -19,7 +19,7 @@ const UserRowComponent = ({user, deleteUser, currentUser}) => {
             </td>
             <td>
                 {
-                    currentUser._id !== user._id && currentUser.type === 'Admin' &&
+                    currentUser._id !== user._id && currentUser.type === 'ADMIN' &&
                     (<a href="#" className="link wbdv-row wbdv-button wbdv-delete float-right mr-3"
                         onClick={(event) => deleteUser(event, user._id)}>
                         <Trash width="20px" height="20px"/>

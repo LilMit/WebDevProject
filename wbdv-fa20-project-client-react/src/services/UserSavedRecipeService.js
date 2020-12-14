@@ -1,5 +1,8 @@
-const localSavedRecipesURL = 'https://tranquil-waters-97142.herokuapp.com/api/savedRecipes';
-const localSavedRecipesCreateURL = 'https://tranquil-waters-97142.herokuapp.com/api/recipes';
+const localSavedRecipesURL = 'http://localhost:4000/api/savedRecipes';
+const localSavedRecipesCreateURL = 'http://localhost:4000/api/recipes';
+
+const remoteSavedRecipesURL = 'https://tranquil-waters-97142.herokuapp.com/api/savedRecipes';
+const remoteSavedRecipesCreateURL = 'https://tranquil-waters-97142.herokuapp.com/api/recipes';
 
 const saveRecipe = (userId, recipeId) => {
     const init = {
