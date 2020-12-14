@@ -113,7 +113,7 @@ const LoginComponent = ({addUserDispatchAction}) => {
                     alertMessage="Invalid username or password."/>
                 <FormFieldComponent
                     label="Username"
-                    placeholder="Devansh"
+                    placeholder="Enter username"
                     inputValue={loginDetails.username}
                     inputType='text'
                     id='username'
@@ -121,7 +121,7 @@ const LoginComponent = ({addUserDispatchAction}) => {
                     divClass={style.remove_margin}/>
                 <FormFieldComponent
                     label="Password"
-                    placeholder="QWERTasdfg"
+                    placeholder="Enter password"
                     inputValue={loginDetails.password}
                     inputType='password'
                     id='password'
