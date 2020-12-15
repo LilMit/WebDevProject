@@ -24,7 +24,7 @@ export const findRandomRecipes = () =>
         .then(response => response.json())
 
 export const searchRecipes = (query) =>
-    fetch(`${searchRecipesUrl}/?query=${query}?includeInstructions=true&apiKey=${apiKey}`)
+    fetch(`${searchRecipesUrl}/?query=${query}?&instructionsRequired=true&apiKey=${apiKey}`)
         .then(response => response.json())
 
 

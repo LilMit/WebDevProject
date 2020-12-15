@@ -1,21 +1,47 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {connect} from 'react-redux'
 import { useHistory } from 'react-router-dom';
 import { addSavedRecipe, deleteSavedRecipe } from '../../actions/recipeAction';
 import RecipeService from '../../services/RecipeService';
-import UserSavedRecipeService from '../../services/UserSavedRecipeService';
 import IngredientsComponent from "./IngredientsComponent";
+import UserSavedRecipeService from '../../services/UserSavedRecipeService';
+import { findSavedRecipes } from '../../actions/recipeAction';
 
-const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, addSavedRecipeDispatchAction, deleteSavedRecipeDispatchAction}) => {
+const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, addSavedRecipeDispatchAction, deleteSavedRecipeDispatchAction, findAllSavedRecipesDispatch}) => {
 
     const history = useHistory();
 
     const [recipeSaved, setRecipeSaved] = useState(isSavedRecipe);
     
+    useEffect(() => {
+        if(userId) {
+            UserSavedRecipeService.getAllSavedRecipes(userId).then((data) => {
+                if(data && !data.error) {
+                    let recipeSavedCheck = false;
+                    data.forEach(savedRecipe => {
+                        if(savedRecipe._id === recipe._id) {
+                            recipeSavedCheck = true;
+                        }
+                    });
+                    if(recipeSavedCheck !== recipeSaved) {
+                        setRecipeSaved(recipeSavedCheck);
+                    }
+                    if(savedRecipes.length !== data.length) {
+                        findAllSavedRecipesDispatch(data);
+                    }
+    
+                }
+            }).catch((data) => {
+    
+            });
+        }
+    }, [recipe._id]);
+
     const saveRecipe = (event) => {
         event.preventDefault();
         if(!userId || userId === '') {
             history.push('/login');
+            return;
         }
         UserSavedRecipeService.saveRecipe(userId, recipe._id).then((data) => {
             if(data && !data.error) {
@@ -130,7 +156,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     addSavedRecipeDispatchAction: (recipe) => addSavedRecipe(dispatch,recipe),
-    deleteSavedRecipeDispatchAction: (recipeId) => deleteSavedRecipe(dispatch, recipeId)
+    deleteSavedRecipeDispatchAction: (recipeId) => deleteSavedRecipe(dispatch, recipeId),
+    findAllSavedRecipesDispatch: (savedRecipes) => findSavedRecipes(dispatch, savedRecipes),
 })
 //TODO add save recipe action and comment components
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeContent);
