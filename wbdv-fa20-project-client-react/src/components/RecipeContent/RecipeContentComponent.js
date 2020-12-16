@@ -1,50 +1,51 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux'
-import { useHistory } from 'react-router-dom';
-import { addSavedRecipe, deleteSavedRecipe } from '../../actions/recipeAction';
+import {Link, useHistory} from 'react-router-dom';
+import {addSavedRecipe, deleteSavedRecipe, findSavedRecipes} from '../../actions/recipeAction';
 import RecipeService from '../../services/RecipeService';
 import IngredientsComponent from "./IngredientsComponent";
+import ReviewComponent from "./ReviewCommentsComponent";
 import UserSavedRecipeService from '../../services/UserSavedRecipeService';
-import { findSavedRecipes } from '../../actions/recipeAction';
+import './review.styles.css';
 
 const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, addSavedRecipeDispatchAction, deleteSavedRecipeDispatchAction, findAllSavedRecipesDispatch}) => {
 
     const history = useHistory();
 
     const [recipeSaved, setRecipeSaved] = useState(isSavedRecipe);
-    
+
     useEffect(() => {
-        if(userId) {
+        if (userId) {
             UserSavedRecipeService.getAllSavedRecipes(userId).then((data) => {
-                if(data && !data.error) {
+                if (data && !data.error) {
                     let recipeSavedCheck = false;
                     data.forEach(savedRecipe => {
-                        if(savedRecipe._id === recipe._id) {
+                        if (savedRecipe._id === recipe._id) {
                             recipeSavedCheck = true;
                         }
                     });
-                    if(recipeSavedCheck !== recipeSaved) {
+                    if (recipeSavedCheck !== recipeSaved) {
                         setRecipeSaved(recipeSavedCheck);
                     }
-                    if(savedRecipes.length !== data.length) {
+                    if (savedRecipes.length !== data.length) {
                         findAllSavedRecipesDispatch(data);
                     }
-    
+
                 }
             }).catch((data) => {
-    
+
             });
         }
     }, [recipe._id]);
 
     const saveRecipe = (event) => {
         event.preventDefault();
-        if(!userId || userId === '') {
+        if (!userId || userId === '') {
             history.push('/login');
             return;
         }
         UserSavedRecipeService.saveRecipe(userId, recipe._id).then((data) => {
-            if(data && !data.error) {
+            if (data && !data.error) {
                 setRecipeSaved(true);
                 addSavedRecipeDispatchAction(data);
             } else {
@@ -58,7 +59,7 @@ const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, ad
     const deleteSavedRecipe = (event) => {
         event.preventDefault();
         UserSavedRecipeService.deleteSavedRecipe(userId, recipe._id).then((data) => {
-            if(data && !data.error) {
+            if (data && !data.error) {
                 setRecipeSaved(false);
                 deleteSavedRecipeDispatchAction(recipe._id);
             } else {
@@ -72,7 +73,7 @@ const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, ad
     const deleteRecipe = (event) => {
         event.preventDefault();
         RecipeService.deleteRecipe(recipe._id).then((data) => {
-            if(data && !data.error) {
+            if (data && !data.error) {
                 deleteSavedRecipeDispatchAction(recipe._id);
             }
             history.push(`/savedRecipes/${userId}`);
@@ -93,37 +94,63 @@ const RecipeContent = ({recipe, isSavedRecipe, savedRecipes, isOwner, userId, ad
                     <img className="card-img-top" src={recipe.image || recipe.imageUrl} alt="Recipe Image"/>
                 </div>
                 <div className="col">
-                    { 
-                        !recipeSaved ? 
-                        <button className="btn btn-info m-1" onClick={(event) => saveRecipe(event)}>Save Recipe</button> :
-                        <button className="btn btn-warning m-1" onClick={(event) => deleteSavedRecipe(event)}>Unsave Recipe</button>
+                    {
+                        !recipeSaved ?
+                            <button className="btn btn-info m-1" onClick={(event) => saveRecipe(event)}>Save
+                                Recipe</button> :
+                            <button className="btn btn-warning m-1" onClick={(event) => deleteSavedRecipe(event)}>Unsave
+                                Recipe</button>
                     }
                     {
-                        isOwner && <button className="btn btn-danger m-1" onClick = {(event) => deleteRecipe(event)}>Delete Recipe</button>
+                        isOwner &&
+                        <button className="btn btn-danger m-1" onClick={(event) => deleteRecipe(event)}>Delete
+                            Recipe</button>
                     }
                     {
-                        isOwner && <button className="btn btn-primary m-1" onClick = {(event) => editRecipe(event)}>Edit Recipe</button>
+                        isOwner && <button className="btn btn-primary m-1" onClick={(event) => editRecipe(event)}>Edit
+                            Recipe</button>
                     }
                     <ul className="list-group">
-                        <li className="list-group-item">Time to prepare: {recipe.readyInMinutes} minutes </li>
+                        <li className="list-group-item">Time to prepare: {recipe.readyInMinutes} minutes</li>
                         <li className="list-group-item">Serves: {recipe.servings}</li>
-                        {recipe.sourceUrl && <li className="list-group-item">Original Posting: <a className="nav-link" href={recipe.sourceUrl}>{recipe.title}</a>
-                        </li>}
-                        {!recipe.sourceUrl && <li className="list-group-item">Original Posting: {recipe.title} </li>}
+                        {recipe.sourceUrl &&
+                        <li className="list-group-item">Original Posting:
+                            <a className="nav-link"
+                               href={recipe.sourceUrl}>{recipe.title}</a>
+                        </li>
+                        }
+                        {
+                            !recipe.sourceUrl && <li className="list-group-item">Original Posting: {recipe.title} </li>
+                        }
+                        {
+                            !recipe.sourceUrl && recipe.userId && !isOwner &&
+                            <li className="list-group-item">Authors profile:
+                                <Link to={`/profile/${recipe.userId._id}`} className="link">
+                                    <span className="text wbdv-row wbdv-title"> {recipe.userId.username}</span>
+                                </Link>
+                            </li>
+                        }
+                        {
+                            !recipe.sourceUrl && recipe.userId && isOwner &&
+                            <li className="list-group-item">Authors profile:
+                                <Link to={`/profile`} className="link">
+                                    <span className="text wbdv-row wbdv-title"> Me </span>
+                                </Link>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
             <div className="row">
-                    <IngredientsComponent {...recipe}/>
-                    {/*<InstructionsComponent {...recipe}/>*/}
-                <div className = "col">
+                <IngredientsComponent {...recipe}/>
+                {/*<InstructionsComponent {...recipe}/>*/}
+                <div className="col">
                     <h3>Instructions</h3>
                     {recipe.instructions}
                 </div>
             </div>
-            <div className="row">
-                {/*TODO reviews component*/}
-                <h1>Reviews (review component placeholder)</h1>
+            <div className="row mb-3 w-auto">
+                <ReviewComponent recipe={recipe}/>
             </div>
         </div>
     );
@@ -135,13 +162,13 @@ const mapStateToProps = (state) => {
     const recipe = state.recipeReducer.recipe;
     const savedRecipes = state.recipeReducer.savedRecipes;
     savedRecipes.forEach(savedRecipe => {
-        if(savedRecipe._id === recipe._id) {
+        if (savedRecipe._id === recipe._id) {
             isSavedRecipe = true;
         }
     });
 
-    let isOwner = false; 
-    if(recipe.userId) {
+    let isOwner = false;
+    if (recipe.userId) {
         isOwner = recipe.userId._id === state.userReducer._id;
     }
 
@@ -155,7 +182,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    addSavedRecipeDispatchAction: (recipe) => addSavedRecipe(dispatch,recipe),
+    addSavedRecipeDispatchAction: (recipe) => addSavedRecipe(dispatch, recipe),
     deleteSavedRecipeDispatchAction: (recipeId) => deleteSavedRecipe(dispatch, recipeId),
     findAllSavedRecipesDispatch: (savedRecipes) => findSavedRecipes(dispatch, savedRecipes),
 })

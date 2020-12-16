@@ -1,5 +1,4 @@
 const localUsersURL = 'http://localhost:4000/api/users';
-
 const remoteUsersURL = 'https://tranquil-waters-97142.herokuapp.com/api/users';
 
 export const validateUser = (username, password) => {

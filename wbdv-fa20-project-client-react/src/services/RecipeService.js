@@ -10,7 +10,8 @@ const searchRecipesUrl = "https://api.spoonacular.com/recipes/complexSearch"
 //const generateRecipeCardUrl = "https://api.spoonacular.com/recipes/visualizeRecipe"
 const recipeImageUrl = "https://spoonacular.com/recipeImages/{ID}-{SIZE}.{TYPE}"
 // const apiKey = "fd8eb1342ad14b99aa1933816c38d9fe";
-const apiKey = "54a4329446b941c4a1e48206f0703ae4";
+const apiKey = "2adc12501b804b15813d1b0278c80ffd";
+// const apiKey = "54a4329446b941c4a1e48206f0703ae4";
 const baseUrl = "https://api.spoonacular.com/recipes";
 // const recipeDetailsSecondHalf = "information?includeNutrition=false&apiKey=fd8eb1342ad14b99aa1933816c38d9fe"
 const recipeDetailsSecondHalf = "information?includeNutrition=false&apiKey=54a4329446b941c4a1e48206f0703ae4"
